@@ -62,12 +62,12 @@ namespace KochanekBartelsSplines.ViewModels
             }
         }
 
-        public RelayCommand<Point> MouseDownCommand { get; private set; }
-        public RelayCommand<Point> MouseMoveCommand { get; private set; }
-        public RelayCommand<Point> MouseDoubleClickCommand { get; private set; }
-        public RelayCommand KeyDownCommand { get; private set; }
-        public RelayCommand ResetCommand { get; private set; }
-        public RelayCommand ClearCommand { get; private set; }
+        public RelayCommand<Point> MouseDownCommand { get; }
+        public RelayCommand<Point> MouseMoveCommand { get; }
+        public RelayCommand<Point> MouseDoubleClickCommand { get; }
+        public RelayCommand KeyDownCommand { get; }
+        public RelayCommand ResetCommand { get; }
+        public RelayCommand ClearCommand { get; }
         public RelayCommand OpenFileCommand { get; private set; }
         public RelayCommand SaveFileCommand { get; private set; }
         public RelayCommand SaveNewFileCommand { get; private set; }
@@ -93,7 +93,7 @@ namespace KochanekBartelsSplines.ViewModels
         }
 
         private int _lastLineId;
-        private String _fileName;
+        private string _fileName;
 
 
         public MainWindowViewModel(ILineInterpolator lineInterpolator)
@@ -116,7 +116,7 @@ namespace KochanekBartelsSplines.ViewModels
             BitmapChannel = new BitmapChannel();
             ResetAnchorLines();
             
-            BitmapChannel.Curves = _lineInterpolator.GetCurves(BitmapChannel.AnchorLines, Tension, Continuity, Bias, Segments);
+            BitmapChannel.Curves = _lineInterpolator.GetCurves(BitmapChannel.AnchorLines, Tension, Continuity, Bias, Segments).ToList();
 
             ResetParameters();
         }
@@ -138,7 +138,8 @@ namespace KochanekBartelsSplines.ViewModels
         
         private void AddAnchorPoint(Point point)
         {
-            if(_activePoint != null) _activePoint.IsActive = false;
+            if(_activePoint != null)
+                _activePoint.IsActive = false;
 
             _activePoint = new AnchorPoint(point, true);
 
@@ -182,7 +183,8 @@ namespace KochanekBartelsSplines.ViewModels
         {
             var selectedPoint = GetSelectedPointOrDefault(point);
 
-            if (selectedPoint == null) return;
+            if (selectedPoint == null)
+                return;
 
             foreach (var line in BitmapChannel.AnchorLines.Where(line => line.Points.Any() && line.Points.First() == selectedPoint))
             {
@@ -192,7 +194,7 @@ namespace KochanekBartelsSplines.ViewModels
 
         private void UpdateBitmapChannel()
         {
-            BitmapChannel.Curves = _lineInterpolator.GetCurves(BitmapChannel.AnchorLines, Tension, Continuity, Bias, Segments);
+            BitmapChannel.Curves = _lineInterpolator.GetCurves(BitmapChannel.AnchorLines, Tension, Continuity, Bias, Segments).ToList();
             RaisePropertyChanged(() => BitmapChannel);
         }
 
@@ -354,17 +356,7 @@ namespace KochanekBartelsSplines.ViewModels
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-
+        
         private void SavePointsToFile(IEnumerable<AnchorLine> anchorLines)
         {
             var fileStream = new FileStream(_fileName, FileMode.Truncate);

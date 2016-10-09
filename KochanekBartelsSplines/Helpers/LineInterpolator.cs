@@ -12,9 +12,8 @@ namespace KochanekBartelsSplines.Helpers
         {
             _pointsCalculator = pointsCalculator;
         }
-
-
-        public List<Curve> GetCurves(IEnumerable<AnchorLine> anchorLines, double tension, double continuity, double bias, int steps)
+        
+        public IEnumerable<Curve> GetCurves(IEnumerable<AnchorLine> anchorLines, double tension, double continuity, double bias, int steps)
         {
             var curves = new List<Curve>();
 

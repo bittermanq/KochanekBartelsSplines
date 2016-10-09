@@ -92,6 +92,8 @@
     <Compile Include="Models\BitmapChannel.cs" />
     <Compile Include="Helpers\Interfaces\ILineInterpolator.cs" />
     <Compile Include="Models\Curve.cs" />
+    <Compile Include="ViewModels\Interfaces\IBitmapContainer.cs" />
+    <Compile Include="ViewModels\Interfaces\ISplineController.cs" />
     <Compile Include="ViewModels\Interfaces\IMainWindowViewModel.cs" />
     <Compile Include="Helpers\InterpolatedPointsCalculator.cs" />
     <Compile Include="Helpers\LineInterpolator.cs" />

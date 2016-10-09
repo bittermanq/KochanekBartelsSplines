@@ -14,7 +14,7 @@ using KochanekBartelsSplines.ViewModels.Interfaces;
 
 namespace KochanekBartelsSplines.ViewModels
 {
-    public class MainWindowViewModel : PropertyChangedImplementation, IMainWindowViewModel
+    public class MainWindowViewModel : PropertyChangedImplementation, IMainWindowViewModel, ISplineController, IBitmapContainer
     {
         private readonly ILineInterpolator _lineInterpolator;
 

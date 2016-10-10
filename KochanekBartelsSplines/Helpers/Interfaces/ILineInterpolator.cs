@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using KochanekBartelsSplines.Models;
+using KochanekBartelsSplines.ViewModels.Interfaces;
 
 namespace KochanekBartelsSplines.Helpers.Interfaces
 {
     public interface ILineInterpolator
     {
-        IEnumerable<Curve> GetCurves(IEnumerable<AnchorLine> anchorLines, double tension, double continuity, double bias, int steps);
+        IEnumerable<Curve> GetCurves(IEnumerable<AnchorLine> anchorLines, ISplineController splineController);
     }
 }

@@ -14,53 +14,13 @@ using KochanekBartelsSplines.ViewModels.Interfaces;
 
 namespace KochanekBartelsSplines.ViewModels
 {
-    public class MainWindowViewModel : PropertyChangedImplementation, IMainWindowViewModel, ISplineController, IBitmapContainer
+    public class MainWindowViewModel : PropertyChangedImplementation, IMainWindowViewModel, IBitmapContainer
     {
         private readonly ILineInterpolator _lineInterpolator;
 
-        private double _tension;
-        public double Tension
-        {
-            get { return _tension; }
-            set
-            {
-                _tension = value;
-                UpdateBitmapChannel();
-            }
-        }
+        public ISplineController SplineController { get; set; }
 
-        private double _continuity;
-        public double Continuity
-        {
-            get { return _continuity; }
-            set
-            {
-                _continuity = value;
-                UpdateBitmapChannel();
-            }
-        }
-
-        private double _bias;
-        public double Bias
-        {
-            get { return _bias; }
-            set
-            {
-                _bias = value;
-                UpdateBitmapChannel();
-            }
-        }
-    
-        private int _segments;
-        public int Segments
-        {
-            get { return _segments; }
-            set
-            {
-                _segments = value;
-                UpdateBitmapChannel();
-            }
-        }
+        public BitmapChannel BitmapChannel { get; set; }
 
         public RelayCommand<Point> MouseDownCommand { get; }
         public RelayCommand<Point> MouseMoveCommand { get; }
@@ -75,9 +35,7 @@ namespace KochanekBartelsSplines.ViewModels
         public RelayCommand DeleteCurveCommand { get; private set; }
         public RelayCommand<int> SelectCurveCommand { get; private set; }
 
-        public BitmapChannel BitmapChannel { get; set; }
-
-
+        
         private AnchorPoint _activePoint;
         
         private AnchorLine _activeAnchorLine;
@@ -96,8 +54,9 @@ namespace KochanekBartelsSplines.ViewModels
         private string _fileName;
 
 
-        public MainWindowViewModel(ILineInterpolator lineInterpolator)
+        public MainWindowViewModel(ILineInterpolator lineInterpolator, ISplineControllerFactory splineControllerFactory)
         {
+            SplineController = splineControllerFactory.Get(UpdateBitmapChannel);
             _lineInterpolator = lineInterpolator;
 
             MouseDownCommand = new RelayCommand<Point>(MouseDown);
@@ -116,7 +75,7 @@ namespace KochanekBartelsSplines.ViewModels
             BitmapChannel = new BitmapChannel();
             ResetAnchorLines();
             
-            BitmapChannel.Curves = _lineInterpolator.GetCurves(BitmapChannel.AnchorLines, Tension, Continuity, Bias, Segments).ToList();
+            BitmapChannel.Curves = _lineInterpolator.GetCurves(BitmapChannel.AnchorLines, SplineController).ToList();
 
             ResetParameters();
         }
@@ -194,7 +153,7 @@ namespace KochanekBartelsSplines.ViewModels
 
         private void UpdateBitmapChannel()
         {
-            BitmapChannel.Curves = _lineInterpolator.GetCurves(BitmapChannel.AnchorLines, Tension, Continuity, Bias, Segments).ToList();
+            BitmapChannel.Curves = _lineInterpolator.GetCurves(BitmapChannel.AnchorLines, SplineController).ToList();
             RaisePropertyChanged(() => BitmapChannel);
         }
 
@@ -218,15 +177,15 @@ namespace KochanekBartelsSplines.ViewModels
 
         private void ResetParameters()
         {
-            Tension = 0;
-            Continuity = 0;
-            Bias = 0;
-            Segments = 10;
+            SplineController.Tension = 0;
+            SplineController.Continuity = 0;
+            SplineController.Bias = 0;
+            SplineController.Segments = 10;
 
-            RaisePropertyChanged(() => Tension);
-            RaisePropertyChanged(() => Continuity);
-            RaisePropertyChanged(() => Bias);
-            RaisePropertyChanged(() => Segments);
+            RaisePropertyChanged(() => SplineController.Tension);
+            RaisePropertyChanged(() => SplineController.Continuity);
+            RaisePropertyChanged(() => SplineController.Bias);
+            RaisePropertyChanged(() => SplineController.Segments);
 
             UpdateBitmapChannel();
         }

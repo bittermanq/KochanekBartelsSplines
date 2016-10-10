@@ -1,6 +1,6 @@
 namespace KochanekBartelsSplines.ViewModels.Interfaces
 {
-    internal interface ISplineController
+    public interface ISplineController
     {
         double Tension { get; set; }
         double Continuity { get; set; }

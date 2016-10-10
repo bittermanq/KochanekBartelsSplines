@@ -97,6 +97,8 @@
     <Compile Include="ViewModels\Interfaces\IMainWindowViewModel.cs" />
     <Compile Include="Helpers\InterpolatedPointsCalculator.cs" />
     <Compile Include="Helpers\LineInterpolator.cs" />
+    <Compile Include="ViewModels\Interfaces\ISplineControllerFactory.cs" />
+    <Compile Include="ViewModels\SplineController.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Unity\UnityConfigurator.cs" />
     <Page Include="Views\DrawingPanel.xaml">
@@ -112,6 +114,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Converters\BitmapChannelToBitmapConverter.cs" />
+    <Compile Include="ViewModels\SplineControllerFactory.cs" />
     <Compile Include="Views\DrawingPanel.xaml.cs">
       <DependentUpon>DrawingPanel.xaml</DependentUpon>
     </Compile>

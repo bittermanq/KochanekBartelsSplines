@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using KochanekBartelsSplines.Helpers.Interfaces;
 using KochanekBartelsSplines.Models;
+using KochanekBartelsSplines.ViewModels.Interfaces;
 
 namespace KochanekBartelsSplines.Helpers
 {
@@ -13,9 +14,14 @@ namespace KochanekBartelsSplines.Helpers
             _pointsCalculator = pointsCalculator;
         }
         
-        public IEnumerable<Curve> GetCurves(IEnumerable<AnchorLine> anchorLines, double tension, double continuity, double bias, int steps)
+        public IEnumerable<Curve> GetCurves(IEnumerable<AnchorLine> anchorLines, ISplineController splineController)
         {
             var curves = new List<Curve>();
+
+            var tension = splineController.Tension;
+            var bias = splineController.Bias;
+            var continuity = splineController.Continuity;
+            var steps = splineController.Segments;
 
             foreach (var anchorLine in anchorLines)
             {

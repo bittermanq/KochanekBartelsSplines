@@ -25,6 +25,8 @@ namespace KochanekBartelsSplines.Unity
             container.RegisterType<IMainWindowViewModel, MainWindowViewModel>();
             container.RegisterType<IInterpolatedPointsCalculator, InterpolatedPointsCalculator>();
             container.RegisterType<ILineInterpolator, LineInterpolator>();
+            container.RegisterType<ISplineController, SplineController>();
+            container.RegisterType<ISplineControllerFactory, SplineControllerFactory>();
         }
     }
 }

@@ -6,7 +6,7 @@ using KochanekBartelsSplines.Models;
 
 namespace KochanekBartelsSplines.Helpers
 {
-    internal class InterpolatedPointsCalculator : IInterpolatedPointsCalculator
+    public class InterpolatedPointsCalculator : IInterpolatedPointsCalculator
     {
         public List<Point> GetInterpolatedPoints(AnchorPoint point1, AnchorPoint point2, AnchorPoint point3, AnchorPoint point4, double tension, double continuity, double bias, int steps)
         {

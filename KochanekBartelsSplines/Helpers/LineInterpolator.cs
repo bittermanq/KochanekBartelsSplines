@@ -5,7 +5,7 @@ using KochanekBartelsSplines.ViewModels.Interfaces;
 
 namespace KochanekBartelsSplines.Helpers
 {
-    internal class LineInterpolator : ILineInterpolator
+    public class LineInterpolator : ILineInterpolator
     {
         private readonly IInterpolatedPointsCalculator _pointsCalculator;
 

@@ -14,7 +14,7 @@ namespace KochanekBartelsSplines
             var unityConfigurator = new UnityConfigurator();
             var container = unityConfigurator.GetConfiguredContainer();
 
-            var mainWindow = container.Resolve<MainWindow>();
+            var mainWindow = (MainWindow) container.Resolve(typeof(MainWindow), "MainWindow");
             mainWindow.Show();
         }
     }

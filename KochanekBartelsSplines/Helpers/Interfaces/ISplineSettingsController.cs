@@ -1,6 +1,6 @@
-namespace KochanekBartelsSplines.ViewModels.Interfaces
+namespace KochanekBartelsSplines.Helpers.Interfaces
 {
-    public interface ISplineController
+    public interface ISplineSettingsController
     {
         double Tension { get; set; }
         double Continuity { get; set; }

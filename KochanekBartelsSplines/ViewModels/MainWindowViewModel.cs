@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -17,27 +16,11 @@ namespace KochanekBartelsSplines.ViewModels
     public class MainWindowViewModel : PropertyChangedImplementation, IMainWindowViewModel, IBitmapContainer
     {
         private readonly ILineInterpolator _lineInterpolator;
+        private readonly IFileProvider _fileProvider;
+        private readonly ISelectedAnchorPointGetter _selectedAnchorPointGetter;
 
-        public ISplineController SplineController { get; set; }
-
-        public BitmapChannel BitmapChannel { get; set; }
-
-        public RelayCommand<Point> MouseDownCommand { get; }
-        public RelayCommand<Point> MouseMoveCommand { get; }
-        public RelayCommand<Point> MouseDoubleClickCommand { get; }
-        public RelayCommand KeyDownCommand { get; }
-        public RelayCommand ResetCommand { get; }
-        public RelayCommand ClearCommand { get; }
-        public RelayCommand OpenFileCommand { get; private set; }
-        public RelayCommand SaveFileCommand { get; private set; }
-        public RelayCommand SaveNewFileCommand { get; private set; }
-        public RelayCommand AddCurveCommand { get; private set; }
-        public RelayCommand DeleteCurveCommand { get; private set; }
-        public RelayCommand<int> SelectCurveCommand { get; private set; }
-
-        
         private AnchorPoint _activePoint;
-        
+
         private AnchorLine _activeAnchorLine;
         private AnchorLine ActiveAnchorLine
         {
@@ -52,13 +35,48 @@ namespace KochanekBartelsSplines.ViewModels
 
         private int _lastLineId;
         private string _fileName;
+        
+        public ISplineSettingsController SplineSettingsController { get; set; }
 
+        public BitmapChannel BitmapChannel { get; set; }
 
-        public MainWindowViewModel(ILineInterpolator lineInterpolator, ISplineControllerFactory splineControllerFactory)
+        public RelayCommand<Point> MouseDownCommand { get; private set; }
+        public RelayCommand<Point> MouseMoveCommand { get; private set; }
+        public RelayCommand<Point> MouseDoubleClickCommand { get; private set; }
+        public RelayCommand KeyDownCommand { get; private set; }
+        public RelayCommand ResetCommand { get; private set; }
+        public RelayCommand ClearCommand { get; private set; }
+        public RelayCommand OpenFileCommand { get; private set; }
+        public RelayCommand SaveFileCommand { get; private set; }
+        public RelayCommand SaveNewFileCommand { get; private set; }
+        public RelayCommand AddCurveCommand { get; private set; }
+        public RelayCommand DeleteCurveCommand { get; private set; }
+        public RelayCommand<int> SelectCurveCommand { get; private set; }
+
+        
+        public MainWindowViewModel(ILineInterpolator lineInterpolator, ISplineControllerFactory splineControllerFactory, 
+                                   IFileProvider fileProvider, ISelectedAnchorPointGetter selectedAnchorPointGetter)
         {
-            SplineController = splineControllerFactory.Get(UpdateBitmapChannel);
             _lineInterpolator = lineInterpolator;
+            _fileProvider = fileProvider;
+            _selectedAnchorPointGetter = selectedAnchorPointGetter;
 
+            SplineSettingsController = splineControllerFactory.Get(UpdateBitmapChannel);
+
+            CreateCommands();
+
+            BitmapChannel = new BitmapChannel();
+
+            ResetAnchorLines();
+            
+            BitmapChannel.Curves = _lineInterpolator.GetCurves(BitmapChannel.AnchorLines, SplineSettingsController).ToList();
+
+            ResetParameters();
+        }
+
+
+        private void CreateCommands()
+        {
             MouseDownCommand = new RelayCommand<Point>(MouseDown);
             MouseMoveCommand = new RelayCommand<Point>(MouseMove);
             MouseDoubleClickCommand = new RelayCommand<Point>(MouseDoubleClick);
@@ -71,16 +89,8 @@ namespace KochanekBartelsSplines.ViewModels
             AddCurveCommand = new RelayCommand(AddAnchorLine);
             DeleteCurveCommand = new RelayCommand(DeleteAnchorLine);
             SelectCurveCommand = new RelayCommand<int>(MakeCurveActive);
-
-            BitmapChannel = new BitmapChannel();
-            ResetAnchorLines();
-            
-            BitmapChannel.Curves = _lineInterpolator.GetCurves(BitmapChannel.AnchorLines, SplineController).ToList();
-
-            ResetParameters();
         }
 
-        
         private AnchorLine GetNewAnchorLine()
         {
             var anchorLine = new AnchorLine { Id = _lastLineId };
@@ -88,13 +98,6 @@ namespace KochanekBartelsSplines.ViewModels
             return anchorLine;
         }
 
-        private AnchorPoint GetSelectedPointOrDefault(Point point)
-        {
-            const int radius = 5;
-
-            return ActiveAnchorLine.Points.FirstOrDefault(anchorPoint => Math.Sqrt(Math.Pow((point.X - anchorPoint.Position.X), 2) + Math.Pow((point.Y - anchorPoint.Position.Y), 2)) <= radius);
-        }
-        
         private void AddAnchorPoint(Point point)
         {
             if(_activePoint != null)
@@ -116,7 +119,7 @@ namespace KochanekBartelsSplines.ViewModels
 
         private void AddOrSelectPoint(Point point)
         {
-            var selectedPoint = GetSelectedPointOrDefault(point);
+            var selectedPoint = _selectedAnchorPointGetter.Get(point, ActiveAnchorLine);
 
             if (selectedPoint == null) AddAnchorPoint(point);
             else
@@ -140,7 +143,7 @@ namespace KochanekBartelsSplines.ViewModels
 
         private void SetLineClosed(Point point)
         {
-            var selectedPoint = GetSelectedPointOrDefault(point);
+            var selectedPoint = _selectedAnchorPointGetter.Get(point, ActiveAnchorLine);
 
             if (selectedPoint == null)
                 return;
@@ -153,7 +156,7 @@ namespace KochanekBartelsSplines.ViewModels
 
         private void UpdateBitmapChannel()
         {
-            BitmapChannel.Curves = _lineInterpolator.GetCurves(BitmapChannel.AnchorLines, SplineController).ToList();
+            BitmapChannel.Curves = _lineInterpolator.GetCurves(BitmapChannel.AnchorLines, SplineSettingsController).ToList();
             RaisePropertyChanged(() => BitmapChannel);
         }
 
@@ -177,15 +180,15 @@ namespace KochanekBartelsSplines.ViewModels
 
         private void ResetParameters()
         {
-            SplineController.Tension = 0;
-            SplineController.Continuity = 0;
-            SplineController.Bias = 0;
-            SplineController.Segments = 10;
+            SplineSettingsController.Tension = 0;
+            SplineSettingsController.Continuity = 0;
+            SplineSettingsController.Bias = 0;
+            SplineSettingsController.Segments = 10;
 
-            RaisePropertyChanged(() => SplineController.Tension);
-            RaisePropertyChanged(() => SplineController.Continuity);
-            RaisePropertyChanged(() => SplineController.Bias);
-            RaisePropertyChanged(() => SplineController.Segments);
+            RaisePropertyChanged(() => SplineSettingsController.Tension);
+            RaisePropertyChanged(() => SplineSettingsController.Continuity);
+            RaisePropertyChanged(() => SplineSettingsController.Bias);
+            RaisePropertyChanged(() => SplineSettingsController.Segments);
 
             UpdateBitmapChannel();
         }
@@ -218,7 +221,7 @@ namespace KochanekBartelsSplines.ViewModels
             if (fileName != null)
             {
                 _fileName = fileName;
-                ReadPointsFromFile(BitmapChannel.AnchorLines);
+                ReadPointsFromFile();
 
                 if(!BitmapChannel.AnchorLines.Any()) ResetAnchorLines();
                 ActiveAnchorLine = BitmapChannel.AnchorLines.First();
@@ -226,7 +229,7 @@ namespace KochanekBartelsSplines.ViewModels
             }
         }
 
-        private String ShowSaveFileDialog()
+        private string ShowSaveFileDialog()
         {
             var saveFileDialog = new SaveFileDialog();
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
@@ -236,7 +239,7 @@ namespace KochanekBartelsSplines.ViewModels
             return null;
         }
 
-        private String ShowOpenFileDialog()
+        private string ShowOpenFileDialog()
         {
             var openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -318,37 +321,12 @@ namespace KochanekBartelsSplines.ViewModels
         
         private void SavePointsToFile(IEnumerable<AnchorLine> anchorLines)
         {
-            var fileStream = new FileStream(_fileName, FileMode.Truncate);
-            var streamWriter = new StreamWriter(fileStream);
-            
-            foreach (var anchorLine in anchorLines)
-            {
-                streamWriter.Write(anchorLine.Id);
-                streamWriter.Write(':');
-                if(anchorLine.Points.Any()) streamWriter.Write('|');
-
-                foreach (var point in anchorLine.Points)
-                {
-                    streamWriter.Write(point.Position.X);
-                    streamWriter.Write(';');   
-                    streamWriter.Write(point.Position.Y);
-                    streamWriter.Write('|');   
-                }
-
-                if (anchorLine.IsClosed) streamWriter.Write('c');   
-                streamWriter.Write('\r');   
-            }
-
-            streamWriter.Dispose();
-            fileStream.Dispose();
+            _fileProvider.Save(anchorLines, _fileName);
         }
 
-        private void ReadPointsFromFile(List<AnchorLine> anchorLines)
+        private void ReadPointsFromFile()
         {
-            var fileStream = new FileStream(_fileName, FileMode.Truncate);
-            var streamReader = new StreamReader(fileStream);
-
-            var readLine = streamReader.ReadLine();
+            _fileProvider.Read("FileName");
         }
     }
 }

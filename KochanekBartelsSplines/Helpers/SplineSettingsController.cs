@@ -1,9 +1,9 @@
 using System;
-using KochanekBartelsSplines.ViewModels.Interfaces;
+using KochanekBartelsSplines.Helpers.Interfaces;
 
-namespace KochanekBartelsSplines.ViewModels
+namespace KochanekBartelsSplines.Helpers
 {
-    public class SplineController : ISplineController
+    public class SplineSettingsController : ISplineSettingsController
     {
         private Action RedrawCallback { get; }
 
@@ -53,7 +53,7 @@ namespace KochanekBartelsSplines.ViewModels
         }
 
 
-        public SplineController(Action redrawCallback)
+        public SplineSettingsController(Action redrawCallback)
         {
             RedrawCallback = redrawCallback;
         }

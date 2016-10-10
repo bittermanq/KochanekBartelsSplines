@@ -14,14 +14,14 @@ namespace KochanekBartelsSplines.Helpers
             _pointsCalculator = pointsCalculator;
         }
         
-        public IEnumerable<Curve> GetCurves(IEnumerable<AnchorLine> anchorLines, ISplineController splineController)
+        public IEnumerable<Curve> GetCurves(IEnumerable<AnchorLine> anchorLines, ISplineSettingsController splineSettingsController)
         {
             var curves = new List<Curve>();
 
-            var tension = splineController.Tension;
-            var bias = splineController.Bias;
-            var continuity = splineController.Continuity;
-            var steps = splineController.Segments;
+            var tension = splineSettingsController.Tension;
+            var bias = splineSettingsController.Bias;
+            var continuity = splineSettingsController.Continuity;
+            var steps = splineSettingsController.Segments;
 
             foreach (var anchorLine in anchorLines)
             {

@@ -6,6 +6,6 @@ namespace KochanekBartelsSplines.Helpers.Interfaces
 {
     public interface ILineInterpolator
     {
-        IEnumerable<Curve> GetCurves(IEnumerable<AnchorLine> anchorLines, ISplineController splineController);
+        IEnumerable<Curve> GetCurves(IEnumerable<AnchorLine> anchorLines, ISplineSettingsController splineSettingsController);
     }
 }

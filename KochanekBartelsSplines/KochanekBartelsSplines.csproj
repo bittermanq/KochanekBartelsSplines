@@ -103,13 +103,18 @@
     <Compile Include="Models\BitmapChannel.cs" />
     <Compile Include="Helpers\Interfaces\ILineInterpolator.cs" />
     <Compile Include="Models\Curve.cs" />
+    <Compile Include="Helpers\FileProvider.cs" />
+    <Compile Include="Helpers\Interfaces\IFileWriter.cs" />
+    <Compile Include="Helpers\Interfaces\IFileProvider.cs" />
+    <Compile Include="Helpers\Interfaces\IFileReader.cs" />
     <Compile Include="ViewModels\Interfaces\IBitmapContainer.cs" />
-    <Compile Include="ViewModels\Interfaces\ISplineController.cs" />
+    <Compile Include="Helpers\Interfaces\ISplineSettingsController.cs" />
     <Compile Include="ViewModels\Interfaces\IMainWindowViewModel.cs" />
     <Compile Include="Helpers\InterpolatedPointsCalculator.cs" />
     <Compile Include="Helpers\LineInterpolator.cs" />
-    <Compile Include="ViewModels\Interfaces\ISplineControllerFactory.cs" />
-    <Compile Include="ViewModels\SplineController.cs" />
+    <Compile Include="Helpers\Interfaces\ISplineControllerFactory.cs" />
+    <Compile Include="Helpers\SplineSettingsController.cs" />
+    <Compile Include="Helpers\Interfaces\ISelectedAnchorPointGetter.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Unity\UnityConfigurator.cs" />
     <Page Include="Views\DrawingPanel.xaml">
@@ -125,7 +130,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Converters\BitmapChannelToBitmapConverter.cs" />
-    <Compile Include="ViewModels\SplineControllerFactory.cs" />
+    <Compile Include="Helpers\SplineControllerFactory.cs" />
+    <Compile Include="Helpers\SelectedAnchorPointGetter.cs" />
     <Compile Include="Views\DrawingPanel.xaml.cs">
       <DependentUpon>DrawingPanel.xaml</DependentUpon>
     </Compile>

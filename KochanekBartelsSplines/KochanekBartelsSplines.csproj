@@ -96,6 +96,7 @@
     <Compile Include="Drawing\BitmapDrawer.cs" />
     <Compile Include="Drawing\Interfaces\IBitmapDrawer.cs" />
     <Compile Include="Helpers\Interfaces\IInterpolatedPointsCalculator.cs" />
+    <Compile Include="Helpers\Interfaces\ISplineSettingsContainer.cs" />
     <Compile Include="Helpers\PropertyChangedImplementation.cs" />
     <Compile Include="Converters\UserControlToMousePositionConverter.cs" />
     <Compile Include="Models\AnchorLine.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Helpers\Interfaces\ISplineControllerFactory.cs" />
     <Compile Include="Helpers\SplineSettingsController.cs" />
     <Compile Include="Helpers\Interfaces\ISelectedAnchorPointGetter.cs" />
+    <Compile Include="Helpers\Interfaces\ISplinesController.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Unity\UnityConfigurator.cs" />
     <Page Include="Views\DrawingPanel.xaml">
@@ -132,6 +134,7 @@
     <Compile Include="Converters\BitmapChannelToBitmapConverter.cs" />
     <Compile Include="Helpers\SplineControllerFactory.cs" />
     <Compile Include="Helpers\SelectedAnchorPointGetter.cs" />
+    <Compile Include="Helpers\SplinesController.cs" />
     <Compile Include="Views\DrawingPanel.xaml.cs">
       <DependentUpon>DrawingPanel.xaml</DependentUpon>
     </Compile>

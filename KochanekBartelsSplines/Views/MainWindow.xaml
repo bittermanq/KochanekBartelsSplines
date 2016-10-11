@@ -89,10 +89,10 @@
 
                     <Label Content="Segments" HorizontalContentAlignment="Center" Margin="0,-2,0,0" Grid.Column="0" Grid.Row="3"/>
 
-                    <xctk:DoubleUpDown Value="{Binding Path=SplineController.Tension}" Increment=".01" FormatString="F2" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch"/>
-                    <xctk:DoubleUpDown Value="{Binding Path=SplineController.Continuity}" Increment=".01" FormatString="F2" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch"/>
-                    <xctk:DoubleUpDown Value="{Binding Path=SplineController.Bias}" Increment=".01" FormatString="F2" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch"/>
-                    <xctk:DoubleUpDown Value="{Binding Path=SplineController.Segments}" Increment="1" Minimum="1" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch"/>
+                    <xctk:DoubleUpDown Value="{Binding Path=SplinesController.SplineSettingsController.Tension}" Increment=".01" FormatString="F2" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch"/>
+                    <xctk:DoubleUpDown Value="{Binding Path=SplinesController.SplineSettingsController.Continuity}" Increment=".01" FormatString="F2" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch"/>
+                    <xctk:DoubleUpDown Value="{Binding Path=SplinesController.SplineSettingsController.Bias}" Increment=".01" FormatString="F2" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch"/>
+                    <xctk:DoubleUpDown Value="{Binding Path=SplinesController.SplineSettingsController.Segments}" Increment="1" Minimum="1" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch"/>
 
                     <Button Content="Reset" Command="{Binding ResetCommand}" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Width="100" Height="24" Style="{StaticResource ButtonStyle}"/>
 
@@ -121,7 +121,7 @@
                     <ScrollViewer Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" 
                                   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
 
-                        <ItemsControl ItemsSource="{Binding Path=BitmapChannel.Curves}" 
+                        <ItemsControl ItemsSource="{Binding Path=SplinesController.BitmapChannel.Curves}" 
                                       Background="#d0d0da"
                                       Margin="5,5,5,0">
                             

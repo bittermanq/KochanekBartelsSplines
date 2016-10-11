@@ -43,7 +43,7 @@
         <Image VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                Height="600" Width="800"
                Focusable="True"
-               Source="{Binding BitmapChannel, Converter={StaticResource BitmapChannelToBitmapConverter}, ConverterParameter={StaticResource BitmapDrawer}}" />
+               Source="{Binding Path=SplinesController.BitmapChannel, Converter={StaticResource BitmapChannelToBitmapConverter}, ConverterParameter={StaticResource BitmapDrawer}}" />
 
     </Border>
 

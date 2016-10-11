@@ -1,44 +1,23 @@
-using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
-using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using KochanekBartelsSplines.Helpers;
 using KochanekBartelsSplines.Helpers.Interfaces;
-using KochanekBartelsSplines.Models;
 using KochanekBartelsSplines.ViewModels.Interfaces;
+using static System.String;
 
 
 namespace KochanekBartelsSplines.ViewModels
 {
-    public class MainWindowViewModel : PropertyChangedImplementation, IMainWindowViewModel, IBitmapContainer
+    public class MainWindowViewModel : PropertyChangedImplementation, IMainWindowViewModel
     {
-        private readonly ILineInterpolator _lineInterpolator;
         private readonly IFileProvider _fileProvider;
-        private readonly ISelectedAnchorPointGetter _selectedAnchorPointGetter;
-
-        private AnchorPoint _activePoint;
-
-        private AnchorLine _activeAnchorLine;
-        private AnchorLine ActiveAnchorLine
-        {
-            get { return _activeAnchorLine; }
-            set
-            {
-                _activeAnchorLine.IsActive = false;
-                _activeAnchorLine = value;
-                _activeAnchorLine.IsActive = true;
-            }
-        }
-
-        private int _lastLineId;
+        
         private string _fileName;
         
-        public ISplineSettingsController SplineSettingsController { get; set; }
+        public ISplinesController SplinesController { get; set; }
 
-        public BitmapChannel BitmapChannel { get; set; }
 
         public RelayCommand<Point> MouseDownCommand { get; private set; }
         public RelayCommand<Point> MouseMoveCommand { get; private set; }
@@ -54,163 +33,51 @@ namespace KochanekBartelsSplines.ViewModels
         public RelayCommand<int> SelectCurveCommand { get; private set; }
 
         
-        public MainWindowViewModel(ILineInterpolator lineInterpolator, ISplineControllerFactory splineControllerFactory, 
-                                   IFileProvider fileProvider, ISelectedAnchorPointGetter selectedAnchorPointGetter)
+        public MainWindowViewModel(IFileProvider fileProvider, ISplinesController splinesController)
         {
-            _lineInterpolator = lineInterpolator;
             _fileProvider = fileProvider;
-            _selectedAnchorPointGetter = selectedAnchorPointGetter;
 
-            SplineSettingsController = splineControllerFactory.Get(UpdateBitmapChannel);
-
-            CreateCommands();
-
-            BitmapChannel = new BitmapChannel();
-
-            ResetAnchorLines();
+            SplinesController = splinesController;
             
-            BitmapChannel.Curves = _lineInterpolator.GetCurves(BitmapChannel.AnchorLines, SplineSettingsController).ToList();
-
-            ResetParameters();
+            CreateCommands();
         }
 
 
         private void CreateCommands()
         {
-            MouseDownCommand = new RelayCommand<Point>(MouseDown);
-            MouseMoveCommand = new RelayCommand<Point>(MouseMove);
-            MouseDoubleClickCommand = new RelayCommand<Point>(MouseDoubleClick);
-            KeyDownCommand = new RelayCommand(KeyDown);
-            ResetCommand = new RelayCommand(ResetParameters);
-            ClearCommand = new RelayCommand(ClearLines);
+            MouseDownCommand = new RelayCommand<Point>(SplinesController.MouseDown);
+            MouseMoveCommand = new RelayCommand<Point>(SplinesController.MouseMove);
+            MouseDoubleClickCommand = new RelayCommand<Point>(SplinesController.MouseDoubleClick);
+            KeyDownCommand = new RelayCommand(SplinesController.KeyDown);
+            ResetCommand = new RelayCommand(SplinesController.ResetParameters);
+            ClearCommand = new RelayCommand(SplinesController.ClearLines);
             OpenFileCommand = new RelayCommand(OpenFile);
             SaveFileCommand = new RelayCommand(SaveFile);
             SaveNewFileCommand = new RelayCommand(SaveNewFile);
-            AddCurveCommand = new RelayCommand(AddAnchorLine);
-            DeleteCurveCommand = new RelayCommand(DeleteAnchorLine);
-            SelectCurveCommand = new RelayCommand<int>(MakeCurveActive);
-        }
+            AddCurveCommand = new RelayCommand(SplinesController.AddAnchorLine);
+            DeleteCurveCommand = new RelayCommand(SplinesController.DeleteAnchorLine);
+            SelectCurveCommand = new RelayCommand<int>(SplinesController.MakeCurveActive);
+        }   
 
-        private AnchorLine GetNewAnchorLine()
-        {
-            var anchorLine = new AnchorLine { Id = _lastLineId };
-            _lastLineId++;
-            return anchorLine;
-        }
-
-        private void AddAnchorPoint(Point point)
-        {
-            if(_activePoint != null)
-                _activePoint.IsActive = false;
-
-            _activePoint = new AnchorPoint(point, true);
-
-            ActiveAnchorLine.Points.Add(_activePoint);
-        }
-
-        private void DeleteActivePoint()
-        {
-            if (_activePoint != null)
-            {
-                ActiveAnchorLine.Points.Remove(_activePoint);
-                UpdateBitmapChannel();
-            }
-        }
-
-        private void AddOrSelectPoint(Point point)
-        {
-            var selectedPoint = _selectedAnchorPointGetter.Get(point, ActiveAnchorLine);
-
-            if (selectedPoint == null) AddAnchorPoint(point);
-            else
-            {
-                if (selectedPoint != _activePoint)
-                {
-                    if (_activePoint != null) _activePoint.IsActive = false;
-                    selectedPoint.IsActive = true;
-                    _activePoint = selectedPoint;
-                }
-            }
-
-            UpdateBitmapChannel();
-        }
-
-        private void MoveActivePoint(Point point)
-        {
-            _activePoint.Position = point;
-            UpdateBitmapChannel();
-        }
-
-        private void SetLineClosed(Point point)
-        {
-            var selectedPoint = _selectedAnchorPointGetter.Get(point, ActiveAnchorLine);
-
-            if (selectedPoint == null)
-                return;
-
-            foreach (var line in BitmapChannel.AnchorLines.Where(line => line.Points.Any() && line.Points.First() == selectedPoint))
-            {
-                line.IsClosed = !line.IsClosed;
-            }
-        }
-
-        private void UpdateBitmapChannel()
-        {
-            BitmapChannel.Curves = _lineInterpolator.GetCurves(BitmapChannel.AnchorLines, SplineSettingsController).ToList();
-            RaisePropertyChanged(() => BitmapChannel);
-        }
-
-        private void ClearLines()
-        {
-            ResetAnchorLines();
-            UpdateBitmapChannel();
-        }
-
-        private void ResetAnchorLines()
-        {
-            if (BitmapChannel.AnchorLines.Any()) BitmapChannel.AnchorLines.Clear();
-
-            _lastLineId = 0;
-
-            _activeAnchorLine = GetNewAnchorLine();
-            _activeAnchorLine.IsActive = true;
-
-            BitmapChannel.AnchorLines.Add(ActiveAnchorLine);
-        }
-
-        private void ResetParameters()
-        {
-            SplineSettingsController.Tension = 0;
-            SplineSettingsController.Continuity = 0;
-            SplineSettingsController.Bias = 0;
-            SplineSettingsController.Segments = 10;
-
-            RaisePropertyChanged(() => SplineSettingsController.Tension);
-            RaisePropertyChanged(() => SplineSettingsController.Continuity);
-            RaisePropertyChanged(() => SplineSettingsController.Bias);
-            RaisePropertyChanged(() => SplineSettingsController.Segments);
-
-            UpdateBitmapChannel();
-        }
-
+        
         private void SaveNewFile()
         {
             var fileName = ShowSaveFileDialog();
             if (fileName != null) _fileName = fileName;
             else return;
 
-            SavePointsToFile(BitmapChannel.AnchorLines);
+            SavePointsToFile();
         }
 
         private void SaveFile()
         {
-            if (String.IsNullOrEmpty(_fileName))
+            if (IsNullOrEmpty(_fileName))
             {
                 SaveNewFile();
                 return;
             }
 
-            SavePointsToFile(BitmapChannel.AnchorLines);
+            SavePointsToFile();
             
         }
 
@@ -222,10 +89,6 @@ namespace KochanekBartelsSplines.ViewModels
             {
                 _fileName = fileName;
                 ReadPointsFromFile();
-
-                if(!BitmapChannel.AnchorLines.Any()) ResetAnchorLines();
-                ActiveAnchorLine = BitmapChannel.AnchorLines.First();
-                UpdateBitmapChannel();
             }
         }
 
@@ -249,84 +112,14 @@ namespace KochanekBartelsSplines.ViewModels
             return null;
         }
 
-        private void DeleteAnchorLine()
+        private void SavePointsToFile()
         {
-            if (BitmapChannel.AnchorLines.Count > 1)
-            {
-                BitmapChannel.AnchorLines.Remove(ActiveAnchorLine);
-                ActiveAnchorLine = BitmapChannel.AnchorLines.First();
-                UpdateBitmapChannel();
-            }
-        }
-
-        private void AddAnchorLine()
-        {
-            ActiveAnchorLine = GetNewAnchorLine();
-
-            if (_activePoint != null)
-            {
-                _activePoint.IsActive = false;
-                _activePoint = null;
-            }
-
-            BitmapChannel.AnchorLines.Add(ActiveAnchorLine);
-            UpdateBitmapChannel();
-        }
-
-        private void MakeCurveActive(int id)
-        {
-            var selectedCurve = (from curve in BitmapChannel.Curves
-                                where curve.Id == id
-                                select curve).First();
-
-            for (var i = 0; i < BitmapChannel.Curves.Count; i++)
-            {
-                if (BitmapChannel.Curves[i] == selectedCurve)
-                {
-                    ActiveAnchorLine = BitmapChannel.AnchorLines[i];
-                    break;
-                }
-            }
-
-            UpdateBitmapChannel();
-        }
-
-
-        private void MouseDown(Point point)
-        {
-            AddOrSelectPoint(point);
-        }
-        
-        private void MouseMove(Point point)
-        {
-            if(Mouse.LeftButton == MouseButtonState.Pressed)
-            {
-                MoveActivePoint(point);
-            }
-        }
-
-        private void MouseDoubleClick(Point point)
-        {
-            SetLineClosed(point);
-        }
-        
-        private void KeyDown()
-        {
-            if(Keyboard.IsKeyDown(Key.Delete))
-            {
-                DeleteActivePoint();
-            }
-        }
-
-        
-        private void SavePointsToFile(IEnumerable<AnchorLine> anchorLines)
-        {
-            _fileProvider.Save(anchorLines, _fileName);
+            //_fileProvider.Save(anchorLines, _fileName);
         }
 
         private void ReadPointsFromFile()
         {
-            _fileProvider.Read("FileName");
+            //_fileProvider.Read("FileName");
         }
     }
 }

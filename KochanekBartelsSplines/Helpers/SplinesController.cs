@@ -1,6 +1,5 @@
 using System.Drawing;
 using System.Linq;
-using System.Windows.Input;
 using KochanekBartelsSplines.Helpers.Interfaces;
 using KochanekBartelsSplines.Models;
 using KochanekBartelsSplines.ViewModels.Interfaces;
@@ -154,33 +153,6 @@ namespace KochanekBartelsSplines.Helpers
             foreach (var line in BitmapChannel.AnchorLines.Where(line => line.Points.Any() && line.Points.First() == selectedPoint))
             {
                 line.IsClosed = !line.IsClosed;
-            }
-        }
-
-
-        public void MouseDown(Point point)
-        {
-            AddOrSelectPoint(point);
-        }
-
-        public void MouseMove(Point point)
-        {
-            if (Mouse.LeftButton == MouseButtonState.Pressed)
-            {
-                MoveActivePoint(point);
-            }
-        }
-
-        public void MouseDoubleClick(Point point)
-        {
-            SetLineClosed(point);
-        }
-
-        public void KeyDown()
-        {
-            if (Keyboard.IsKeyDown(Key.Delete))
-            {
-                DeleteActivePoint();
             }
         }
 

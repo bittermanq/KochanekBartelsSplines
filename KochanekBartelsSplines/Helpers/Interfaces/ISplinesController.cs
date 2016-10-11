@@ -13,10 +13,5 @@ namespace KochanekBartelsSplines.Helpers.Interfaces
         void MakeCurveActive(int obj);
         void MoveActivePoint(Point point);
         void SetLineClosed(Point point);
-
-        void MouseDown(Point obj);
-        void MouseMove(Point obj);
-        void MouseDoubleClick(Point obj);
-        void KeyDown();
     }
 }

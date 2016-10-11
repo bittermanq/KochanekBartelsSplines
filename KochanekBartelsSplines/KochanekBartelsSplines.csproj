@@ -117,6 +117,8 @@
     <Compile Include="Helpers\SplineSettingsController.cs" />
     <Compile Include="Helpers\Interfaces\ISelectedAnchorPointGetter.cs" />
     <Compile Include="Helpers\Interfaces\ISplinesController.cs" />
+    <Compile Include="ViewModels\ISplinesControllerViewModel.cs" />
+    <Compile Include="ViewModels\ISplinesControllerVMContainer.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Unity\UnityConfigurator.cs" />
     <Page Include="Views\DrawingPanel.xaml">
@@ -135,6 +137,7 @@
     <Compile Include="Helpers\SplineControllerFactory.cs" />
     <Compile Include="Helpers\SelectedAnchorPointGetter.cs" />
     <Compile Include="Helpers\SplinesController.cs" />
+    <Compile Include="ViewModels\SplinesControllerViewModel.cs" />
     <Compile Include="Views\DrawingPanel.xaml.cs">
       <DependentUpon>DrawingPanel.xaml</DependentUpon>
     </Compile>

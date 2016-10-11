@@ -76,8 +76,7 @@ namespace KochanekBartelsSplines.Drawing
 
                 var pen = firstPoint.IsActive ? activePen : passivePen;
 
-                graphics.DrawRectangle(pen, firstPoint.Position.X - radius, firstPoint.Position.Y - radius, 2*radius,
-                                       2*radius);
+                graphics.DrawRectangle(pen, firstPoint.Position.X - radius, firstPoint.Position.Y - radius, 2*radius, 2*radius);
 
                 for (var j = 1; j < line.Points.Count - 1; j++)
                 {

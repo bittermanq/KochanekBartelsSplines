@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using KochanekBartelsSplines.Helpers.Interfaces;
 using KochanekBartelsSplines.Models;
-using KochanekBartelsSplines.ViewModels.Interfaces;
 
 namespace KochanekBartelsSplines.Helpers
 {

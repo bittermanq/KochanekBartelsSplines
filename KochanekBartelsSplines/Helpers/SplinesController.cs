@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using KochanekBartelsSplines.Helpers.Interfaces;
@@ -10,6 +11,8 @@ namespace KochanekBartelsSplines.Helpers
     {
         private readonly ISelectedAnchorPointGetter _selectedAnchorPointGetter;
         private readonly ILineInterpolator _lineInterpolator;
+
+        private readonly List<AnchorLine> _anchorLines = new List<AnchorLine>();
 
         private AnchorPoint _activePoint;
         private int _lastLineId;
@@ -29,9 +32,10 @@ namespace KochanekBartelsSplines.Helpers
         public ISplineSettingsController SplineSettingsController { get; set; }
 
         public BitmapChannel BitmapChannel { get; set; }
+        
 
-
-        public SplinesController(ISelectedAnchorPointGetter selectedAnchorPointGetter, ISplineControllerFactory splineControllerFactory,
+        public SplinesController(ISelectedAnchorPointGetter selectedAnchorPointGetter, 
+                                 ISplineControllerFactory splineControllerFactory,
                                  ILineInterpolator lineInterpolator)
         {
             _selectedAnchorPointGetter = selectedAnchorPointGetter;
@@ -40,7 +44,6 @@ namespace KochanekBartelsSplines.Helpers
             SplineSettingsController = splineControllerFactory.Get(UpdateBitmapChannel);
 
             BitmapChannel = new BitmapChannel();
-            BitmapChannel.Curves = _lineInterpolator.GetCurves(BitmapChannel.AnchorLines, SplineSettingsController).ToList();
 
             ResetAnchorLines();
             ResetParameters();
@@ -97,10 +100,10 @@ namespace KochanekBartelsSplines.Helpers
 
         public void DeleteAnchorLine()
         {
-            if (BitmapChannel.AnchorLines.Count > 1)
+            if (_anchorLines.Count > 1)
             {
-                BitmapChannel.AnchorLines.Remove(ActiveAnchorLine);
-                ActiveAnchorLine = BitmapChannel.AnchorLines.First();
+                _anchorLines.Remove(ActiveAnchorLine);
+                ActiveAnchorLine = _anchorLines.First();
                 UpdateBitmapChannel();
             }
         }
@@ -115,7 +118,7 @@ namespace KochanekBartelsSplines.Helpers
                 _activePoint = null;
             }
 
-            BitmapChannel.AnchorLines.Add(ActiveAnchorLine);
+            _anchorLines.Add(ActiveAnchorLine);
             UpdateBitmapChannel();
         }
 
@@ -129,7 +132,7 @@ namespace KochanekBartelsSplines.Helpers
             {
                 if (BitmapChannel.Curves[i] == selectedCurve)
                 {
-                    ActiveAnchorLine = BitmapChannel.AnchorLines[i];
+                    ActiveAnchorLine = _anchorLines[i];
                     break;
                 }
             }
@@ -150,7 +153,7 @@ namespace KochanekBartelsSplines.Helpers
             if (selectedPoint == null)
                 return;
 
-            foreach (var line in BitmapChannel.AnchorLines.Where(line => line.Points.Any() && line.Points.First() == selectedPoint))
+            foreach (var line in _anchorLines.Where(line => line.Points.Any() && line.Points.First() == selectedPoint))
             {
                 line.IsClosed = !line.IsClosed;
             }
@@ -159,7 +162,8 @@ namespace KochanekBartelsSplines.Helpers
 
         private void UpdateBitmapChannel()
         {
-            BitmapChannel.Curves = _lineInterpolator.GetCurves(BitmapChannel.AnchorLines, SplineSettingsController).ToList();
+            BitmapChannel.Curves = _lineInterpolator.GetCurves(_anchorLines, SplineSettingsController).ToList();
+            BitmapChannel.AnchorLines = _anchorLines;
             RaisePropertyChanged(() => BitmapChannel);
         }
 
@@ -176,14 +180,15 @@ namespace KochanekBartelsSplines.Helpers
 
         private void ResetAnchorLines()
         {
-            if (BitmapChannel.AnchorLines.Any()) BitmapChannel.AnchorLines.Clear();
+            if (_anchorLines.Any())
+                _anchorLines.Clear();
 
             _lastLineId = 0;
 
             _activeAnchorLine = GetNewAnchorLine();
             _activeAnchorLine.IsActive = true;
 
-            BitmapChannel.AnchorLines.Add(ActiveAnchorLine);
+            _anchorLines.Add(ActiveAnchorLine);
         }
 
         private AnchorLine GetNewAnchorLine()

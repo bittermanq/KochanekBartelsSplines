@@ -1,4 +1,6 @@
-﻿using Microsoft.Practices.Unity;
+﻿using KochanekBartelsSplines.Interpolation;
+using KochanekBartelsSplines.Interpolation.Interfaces;
+using Microsoft.Practices.Unity;
 
 namespace KochanekBartelsSplines.TestApp.Unity
 {
@@ -19,6 +21,9 @@ namespace KochanekBartelsSplines.TestApp.Unity
                 AllClasses.FromLoadedAssemblies(),
                 WithMappings.FromMatchingInterface,
                 WithName.Default);
+
+            //TODO: make working via AllClasses.FromLoadedAssemblies()
+            container.RegisterType(typeof(IInterpolatedPointsCalculator), typeof(InterpolatedPointsCalculator));
         }
     }
 }

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using KochanekBartelsSplines.Models;
 using KochanekBartelsSplines.TestApp.Drawing.Interfaces;
 using KochanekBartelsSplines.TestApp.Models;
 using Brushes = System.Drawing.Brushes;

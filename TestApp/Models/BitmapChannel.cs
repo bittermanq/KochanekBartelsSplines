@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using KochanekBartelsSplines.Models;
 
 namespace KochanekBartelsSplines.TestApp.Models
 {

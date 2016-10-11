@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using KochanekBartelsSplines.Interpolation.Interfaces;
-using KochanekBartelsSplines.Models;
 using KochanekBartelsSplines.TestApp.Helpers.Interfaces;
 using KochanekBartelsSplines.TestApp.Models;
 
@@ -33,13 +32,41 @@ namespace KochanekBartelsSplines.TestApp.Helpers
                     for (var i = 0; i < anchorLine.Points.Count; i++)
                     {
                         if (i == 0)
-                            curve.Points.AddRange(_pointsCalculator.GetInterpolatedPoints(anchorLine.Points[anchorLine.IsClosed ? anchorLine.Points.Count - 1 : i], anchorLine.Points[i], anchorLine.Points[i + 1], anchorLine.Points[i + 2], tension, continuity, bias, steps));
+                        {
+                            var point1 = anchorLine.Points[anchorLine.IsClosed ? anchorLine.Points.Count - 1 : i].Position;
+                            var point2 = anchorLine.Points[i].Position;
+                            var point3 = anchorLine.Points[i + 1].Position;
+                            var point4 = anchorLine.Points[i + 2].Position;
+
+                            curve.Points.AddRange(_pointsCalculator.GetInterpolatedPoints(point1, point2, point3, point4, tension, continuity, bias, steps));
+                        }
                         else if (i + 2 < anchorLine.Points.Count)
-                            curve.Points.AddRange(_pointsCalculator.GetInterpolatedPoints(anchorLine.Points[i - 1], anchorLine.Points[i], anchorLine.Points[i + 1], anchorLine.Points[i + 2], tension, continuity, bias, steps));
+                        {
+                            var point1 = anchorLine.Points[i - 1].Position;
+                            var point2 = anchorLine.Points[i].Position;
+                            var point3 = anchorLine.Points[i + 1].Position;
+                            var point4 = anchorLine.Points[i + 2].Position;
+
+                            curve.Points.AddRange(_pointsCalculator.GetInterpolatedPoints(point1, point2, point3, point4, tension, continuity, bias, steps));
+                        }
                         else if (i + 1 < anchorLine.Points.Count)
-                            curve.Points.AddRange(_pointsCalculator.GetInterpolatedPoints(anchorLine.Points[i - 1], anchorLine.Points[i], anchorLine.Points[i + 1], anchorLine.Points[anchorLine.IsClosed ? 0 : i + 1], tension, continuity, bias, steps));
-                        else if(anchorLine.IsClosed)
-                            curve.Points.AddRange(_pointsCalculator.GetInterpolatedPoints(anchorLine.Points[i - 1], anchorLine.Points[i], anchorLine.Points[0], anchorLine.Points[1], tension, continuity, bias, steps));
+                        {
+                            var point1 = anchorLine.Points[i - 1].Position;
+                            var point2 = anchorLine.Points[i].Position;
+                            var point3 = anchorLine.Points[i + 1].Position;
+                            var point4 = anchorLine.Points[anchorLine.IsClosed ? 0 : i + 1].Position;
+
+                            curve.Points.AddRange(_pointsCalculator.GetInterpolatedPoints(point1, point2, point3, point4, tension, continuity, bias, steps));
+                        }
+                        else if (anchorLine.IsClosed)
+                        {
+                            var point1 = anchorLine.Points[i - 1].Position;
+                            var point2 = anchorLine.Points[i].Position;
+                            var point3 = anchorLine.Points[0].Position;
+                            var point4 = anchorLine.Points[1].Position;
+
+                            curve.Points.AddRange(_pointsCalculator.GetInterpolatedPoints(point1, point2, point3, point4, tension, continuity, bias, steps));
+                        }
                     }
                 }
 

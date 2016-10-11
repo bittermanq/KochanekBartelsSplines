@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace KochanekBartelsSplines.Models
+namespace KochanekBartelsSplines.TestApp.Models
 {
     public class AnchorLine
     {

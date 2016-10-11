@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using KochanekBartelsSplines.Models;
 using KochanekBartelsSplines.TestApp.Helpers.Interfaces;
+using KochanekBartelsSplines.TestApp.Models;
 
 namespace KochanekBartelsSplines.TestApp.Helpers
 {

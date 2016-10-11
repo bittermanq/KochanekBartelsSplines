@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using KochanekBartelsSplines.TestApp.Models;
-using KochanekBartelsSplines.Models;
 
 namespace KochanekBartelsSplines.TestApp.Helpers.Interfaces
 {

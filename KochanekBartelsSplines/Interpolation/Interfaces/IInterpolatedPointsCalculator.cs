@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using System.Drawing;
-using KochanekBartelsSplines.Models;
 
 namespace KochanekBartelsSplines.Interpolation.Interfaces
 {
     public interface IInterpolatedPointsCalculator
     {
-        List<Point> GetInterpolatedPoints(AnchorPoint point1, AnchorPoint point2, AnchorPoint point3, AnchorPoint point4, double tension, double continuity, double bias, int steps);
+        List<Point> GetInterpolatedPoints(Point point1, Point point2, Point point3, Point point4, double tension, double continuity, double bias, int steps);
     }
 }

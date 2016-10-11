@@ -92,6 +92,8 @@
     <Compile Include="Drawing\BitmapDrawer.cs" />
     <Compile Include="Drawing\Interfaces\IBitmapDrawer.cs" />
     <Compile Include="Helpers\Interfaces\ISplineSettingsContainer.cs" />
+    <Compile Include="Models\AnchorLine.cs" />
+    <Compile Include="Models\AnchorPoint.cs" />
     <Compile Include="Wpf\PropertyChangedImplementation.cs" />
     <Compile Include="Converters\UserControlToMousePositionConverter.cs" />
     <Compile Include="Models\BitmapChannel.cs" />

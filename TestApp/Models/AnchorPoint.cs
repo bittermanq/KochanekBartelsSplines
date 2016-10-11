@@ -1,6 +1,6 @@
 using System.Drawing;
 
-namespace KochanekBartelsSplines.Models
+namespace KochanekBartelsSplines.TestApp.Models
 {
     public class AnchorPoint
     {

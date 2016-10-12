@@ -3,9 +3,9 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:converters="clr-namespace:KochanekBartelsSplines.TestApp.Converters"
         xmlns:views="clr-namespace:KochanekBartelsSplines.TestApp.Views"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         Height="650" Width="1030"
         ResizeMode="CanMinimize"
         x:ClassModifier="internal">
@@ -43,33 +43,12 @@
                             Margin="10,0,0,0"
                             DataContext="{Binding SplinesControllerViewModel}"/>
 
-        <StackPanel Name="ToolPanel" Margin="0,10,10,0">
+        <StackPanel Name="ToolPanel" Margin="5">
 
-            <Border Name="OpenSavePanel"
-                    Style="{StaticResource ToolPanelStyle}"
-                    Height="50">
-                
-                <Grid HorizontalAlignment="Stretch">
-                    
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    
-                    <Button Content="Open..." Command="{Binding OpenFileCommand}" Style="{StaticResource ButtonStyle}" Grid.Column="0" Margin="5,5,5,5"/>
-                    <Button Content="Save..." Command="{Binding SaveFileCommand}" Style="{StaticResource ButtonStyle}" Grid.Column="1" Margin="5,5,5,5" />
-                    <Button Content="Save as..." Command="{Binding SaveNewFileCommand}" Style="{StaticResource ButtonStyle}" Grid.Column="2" Margin="5,5,5,5" />
-
-                </Grid>
-                
-            </Border>
-            
             <Border Name="SettingsPanel" 
-                    Style="{StaticResource ToolPanelStyle}"
-                    Margin="0,5,0,0">
+                    Style="{StaticResource ToolPanelStyle}">
 
-                <Grid Margin="5,5,5,5">
+                <Grid Margin="5">
                     
                     <Grid.RowDefinitions>
                         <RowDefinition Height="24"/>

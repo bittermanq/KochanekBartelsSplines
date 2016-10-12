@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:Command="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras.WPF4"
+             xmlns:command="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras.WPF4"
              xmlns:converters="clr-namespace:KochanekBartelsSplines.TestApp.Converters"
              xmlns:drawing="clr-namespace:KochanekBartelsSplines.TestApp.Drawing"
              mc:Ignorable="d" 
@@ -20,19 +20,19 @@
     <i:Interaction.Triggers>
 
         <i:EventTrigger EventName="MouseDown">
-            <Command:EventToCommand Command="{Binding MouseDownCommand}" 
+            <command:EventToCommand Command="{Binding MouseDownCommand}" 
                                             UpdateCommandParameterBeforeExecuting="True"
                                             CommandParameter="{Binding ElementName=DrawingArea, Converter={StaticResource UserControlToMousePositionConverter}}" />
         </i:EventTrigger>
 
         <i:EventTrigger EventName="MouseMove">
-            <Command:EventToCommand Command="{Binding MouseMoveCommand}" 
+            <command:EventToCommand Command="{Binding MouseMoveCommand}" 
                                             UpdateCommandParameterBeforeExecuting="True"
                                             CommandParameter="{Binding ElementName=DrawingArea, Converter={StaticResource UserControlToMousePositionConverter}}" />
         </i:EventTrigger>
 
         <i:EventTrigger EventName="MouseDoubleClick">
-            <Command:EventToCommand Command="{Binding MouseDoubleClickCommand}" 
+            <command:EventToCommand Command="{Binding MouseDoubleClickCommand}" 
                                     UpdateCommandParameterBeforeExecuting="True"
                                     CommandParameter="{Binding ElementName=DrawingArea, Converter={StaticResource UserControlToMousePositionConverter}}" />
         </i:EventTrigger>

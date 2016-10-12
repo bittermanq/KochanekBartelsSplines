@@ -1,7 +1,6 @@
 using System;
 using System.Windows.Forms;
 using GalaSoft.MvvmLight.Command;
-using KochanekBartelsSplines.TestApp.Helpers;
 using KochanekBartelsSplines.TestApp.Helpers.Interfaces;
 using KochanekBartelsSplines.TestApp.ViewModels.Interfaces;
 using KochanekBartelsSplines.TestApp.Wpf;

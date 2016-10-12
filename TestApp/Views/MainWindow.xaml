@@ -63,15 +63,15 @@
                         <ColumnDefinition Width="70"/>
                     </Grid.ColumnDefinitions>
 
-                    <Label Content="Common tension" HorizontalContentAlignment="Center" Margin="0,-2,0,0" Grid.Column="0" Grid.Row="0"/>
-                    <Label Content="Common continuity" HorizontalContentAlignment="Center" Margin="0,-2,0,0" Grid.Column="0" Grid.Row="1"/>
-                    <Label Content="Common bias" HorizontalContentAlignment="Center" Margin="0,-2,0,0" Grid.Column="0" Grid.Row="2"/>
+                    <Label Content="Tension" HorizontalContentAlignment="Center" Margin="0,-2,0,0" Grid.Column="0" Grid.Row="0"/>
+                    <Label Content="Continuity" HorizontalContentAlignment="Center" Margin="0,-2,0,0" Grid.Column="0" Grid.Row="1"/>
+                    <Label Content="Bias" HorizontalContentAlignment="Center" Margin="0,-2,0,0" Grid.Column="0" Grid.Row="2"/>
 
                     <Label Content="Segments" HorizontalContentAlignment="Center" Margin="0,-2,0,0" Grid.Column="0" Grid.Row="3"/>
 
-                    <xctk:DoubleUpDown Value="{Binding Path=SplinesControllerViewModel.SplinesController.SplineSettingsController.Tension}" Increment=".01" FormatString="F2" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch"/>
-                    <xctk:DoubleUpDown Value="{Binding Path=SplinesControllerViewModel.SplinesController.SplineSettingsController.Continuity}" Increment=".01" FormatString="F2" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch"/>
-                    <xctk:DoubleUpDown Value="{Binding Path=SplinesControllerViewModel.SplinesController.SplineSettingsController.Bias}" Increment=".01" FormatString="F2" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch"/>
+                    <xctk:DoubleUpDown Value="{Binding Path=SplinesControllerViewModel.SplinesController.ActivePoint.Tension}" Increment=".01" FormatString="F2" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch"/>
+                    <xctk:DoubleUpDown Value="{Binding Path=SplinesControllerViewModel.SplinesController.ActivePoint.Continuity}" Increment=".01" FormatString="F2" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch"/>
+                    <xctk:DoubleUpDown Value="{Binding Path=SplinesControllerViewModel.SplinesController.ActivePoint.Bias}" Increment=".01" FormatString="F2" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch"/>
                     <xctk:DoubleUpDown Value="{Binding Path=SplinesControllerViewModel.SplinesController.SplineSettingsController.Segments}" Increment="1" Minimum="1" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch"/>
 
                     <Button Content="Reset" Command="{Binding Path=SplinesControllerViewModel.ResetCommand}" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Width="100" Height="24" Style="{StaticResource ButtonStyle}"/>

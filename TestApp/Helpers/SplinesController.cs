@@ -15,8 +15,19 @@ namespace KochanekBartelsSplines.TestApp.Helpers
 
         private readonly List<AnchorLine> _anchorLines = new List<AnchorLine>();
 
-        private AnchorPoint _activePoint;
         private int _lastLineId;
+
+        private AnchorPoint _activePoint;
+        public AnchorPoint ActivePoint
+        {
+            get { return _activePoint; }
+            set
+            {
+                _activePoint = value;
+
+                RaisePropertyChanged(() => ActivePoint);
+            }
+        }
 
         private AnchorLine _activeAnchorLine;
         private AnchorLine ActiveAnchorLine
@@ -53,9 +64,9 @@ namespace KochanekBartelsSplines.TestApp.Helpers
         
         public void DeleteActivePoint()
         {
-            if (_activePoint != null)
+            if (ActivePoint != null)
             {
-                ActiveAnchorLine.Points.Remove(_activePoint);
+                ActiveAnchorLine.Points.Remove(ActivePoint);
                 UpdateBitmapChannel();
             }
         }
@@ -67,11 +78,11 @@ namespace KochanekBartelsSplines.TestApp.Helpers
             if (selectedPoint == null) AddAnchorPoint(point);
             else
             {
-                if (selectedPoint != _activePoint)
+                if (selectedPoint != ActivePoint)
                 {
-                    if (_activePoint != null) _activePoint.IsActive = false;
+                    if (ActivePoint != null) ActivePoint.IsActive = false;
                     selectedPoint.IsActive = true;
-                    _activePoint = selectedPoint;
+                    ActivePoint = selectedPoint;
                 }
             }
 
@@ -86,14 +97,18 @@ namespace KochanekBartelsSplines.TestApp.Helpers
 
         public void ResetParameters()
         {
-            SplineSettingsController.Tension = 0;
-            SplineSettingsController.Continuity = 0;
-            SplineSettingsController.Bias = 0;
-            SplineSettingsController.Segments = 10;
+            if (ActivePoint != null)
+            {
+                ActivePoint.Tension = 0;
+                ActivePoint.Continuity = 0;
+                ActivePoint.Bias = 0;
 
-            RaisePropertyChanged(() => SplineSettingsController.Tension);
-            RaisePropertyChanged(() => SplineSettingsController.Continuity);
-            RaisePropertyChanged(() => SplineSettingsController.Bias);
+                RaisePropertyChanged(() => ActivePoint.Tension);
+                RaisePropertyChanged(() => ActivePoint.Continuity);
+                RaisePropertyChanged(() => ActivePoint.Bias);
+            }
+
+            SplineSettingsController.Segments = 10;
             RaisePropertyChanged(() => SplineSettingsController.Segments);
 
             UpdateBitmapChannel();
@@ -113,10 +128,10 @@ namespace KochanekBartelsSplines.TestApp.Helpers
         {
             ActiveAnchorLine = GetNewAnchorLine();
 
-            if (_activePoint != null)
+            if (ActivePoint != null)
             {
-                _activePoint.IsActive = false;
-                _activePoint = null;
+                ActivePoint.IsActive = false;
+                ActivePoint = null;
             }
 
             _anchorLines.Add(ActiveAnchorLine);
@@ -143,7 +158,7 @@ namespace KochanekBartelsSplines.TestApp.Helpers
 
         public void MoveActivePoint(Point point)
         {
-            _activePoint.Position = point;
+            ActivePoint.Position = point;
             UpdateBitmapChannel();
         }
 
@@ -160,23 +175,14 @@ namespace KochanekBartelsSplines.TestApp.Helpers
             }
         }
 
-
-        private void UpdateBitmapChannel()
-        {
-            BitmapChannel.Curves = _lineInterpolator.GetCurves(_anchorLines, SplineSettingsController).ToList();
-            BitmapChannel.AnchorLines = _anchorLines;
-            RaisePropertyChanged(() => BitmapChannel);
-        }
-
-
         private void AddAnchorPoint(Point point)
         {
-            if (_activePoint != null)
-                _activePoint.IsActive = false;
+            if (ActivePoint != null)
+                ActivePoint.IsActive = false;
 
-            _activePoint = new AnchorPoint(point, true);
+            ActivePoint = new AnchorPoint(point, true, UpdateBitmapChannel);
 
-            ActiveAnchorLine.Points.Add(_activePoint);
+            ActiveAnchorLine.Points.Add(ActivePoint);
         }
 
         private void ResetAnchorLines()
@@ -197,6 +203,14 @@ namespace KochanekBartelsSplines.TestApp.Helpers
             var anchorLine = new AnchorLine { Id = _lastLineId };
             _lastLineId++;
             return anchorLine;
+        }
+
+
+        private void UpdateBitmapChannel()
+        {
+            BitmapChannel.Curves = _lineInterpolator.GetCurves(_anchorLines, SplineSettingsController).ToList();
+            BitmapChannel.AnchorLines = _anchorLines;
+            RaisePropertyChanged(() => BitmapChannel);
         }
     }
 }

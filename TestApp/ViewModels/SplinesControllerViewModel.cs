@@ -2,6 +2,7 @@ using System.Drawing;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using KochanekBartelsSplines.TestApp.Helpers.Interfaces;
+using KochanekBartelsSplines.TestApp.ViewModels.Interfaces;
 
 namespace KochanekBartelsSplines.TestApp.ViewModels
 {

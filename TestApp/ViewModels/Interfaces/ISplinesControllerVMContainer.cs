@@ -1,4 +1,4 @@
-namespace KochanekBartelsSplines.TestApp.ViewModels
+namespace KochanekBartelsSplines.TestApp.ViewModels.Interfaces
 {
     public interface ISplinesControllerVMContainer
     {

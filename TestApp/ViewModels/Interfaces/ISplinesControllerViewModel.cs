@@ -2,7 +2,7 @@ using System.Drawing;
 using GalaSoft.MvvmLight.Command;
 using KochanekBartelsSplines.TestApp.Helpers.Interfaces;
 
-namespace KochanekBartelsSplines.TestApp.ViewModels
+namespace KochanekBartelsSplines.TestApp.ViewModels.Interfaces
 {
     public interface ISplinesControllerViewModel
     {

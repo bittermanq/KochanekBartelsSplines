@@ -80,7 +80,9 @@ namespace KochanekBartelsSplines.TestApp.Helpers
             {
                 if (selectedPoint != ActivePoint)
                 {
-                    if (ActivePoint != null) ActivePoint.IsActive = false;
+                    if (ActivePoint != null)
+                        ActivePoint.IsActive = false;
+
                     selectedPoint.IsActive = true;
                     ActivePoint = selectedPoint;
                 }

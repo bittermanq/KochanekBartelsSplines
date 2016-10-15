@@ -5,7 +5,7 @@ namespace KochanekBartelsSplines.TestApp.Models
 {
     public class AnchorPoint
     {
-        private readonly Action _updateBitmapChannel;
+        private readonly Action _redrawCallback;
         
         public Point Position { get; set; }
         public bool IsActive { get; set; }
@@ -17,7 +17,7 @@ namespace KochanekBartelsSplines.TestApp.Models
             set
             {
                 _tension = value;
-                _updateBitmapChannel();
+                _redrawCallback();
             }
         }
         
@@ -28,7 +28,7 @@ namespace KochanekBartelsSplines.TestApp.Models
             set
             {
                 _continuity = value;
-                _updateBitmapChannel();
+                _redrawCallback();
             }
         }
         
@@ -39,13 +39,13 @@ namespace KochanekBartelsSplines.TestApp.Models
             set
             {
                 _bias = value;
-                _updateBitmapChannel();
+                _redrawCallback();
             }
         }
 
-        public AnchorPoint(Point position, bool isActive, Action updateBitmapChannel)
+        public AnchorPoint(Point position, bool isActive, Action redrawCallback)
         {
-            _updateBitmapChannel = updateBitmapChannel;
+            _redrawCallback = redrawCallback;
 
             Position = position;
             IsActive = isActive;

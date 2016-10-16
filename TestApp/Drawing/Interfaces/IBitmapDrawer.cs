@@ -5,6 +5,6 @@ namespace KochanekBartelsSplines.TestApp.Drawing.Interfaces
 {
     internal interface IBitmapDrawer
     {
-        WriteableBitmap GetBitmap(BitmapChannel bitmapChannel);
+        WriteableBitmap GetBitmap(BitmapChannel bitmapChannel, GraphicsGetter graphicsGetter);
     }
 }

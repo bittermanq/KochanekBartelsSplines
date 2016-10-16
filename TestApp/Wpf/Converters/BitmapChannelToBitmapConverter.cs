@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
+using KochanekBartelsSplines.TestApp.Drawing;
 using KochanekBartelsSplines.TestApp.Drawing.Interfaces;
 using KochanekBartelsSplines.TestApp.Models;
 
@@ -15,7 +16,7 @@ namespace KochanekBartelsSplines.TestApp.Wpf.Converters
             var bitmapDrawer = (IBitmapDrawer) parameter;
             if (bitmapDrawer == null) return null;
 
-            var writeableBitmap = bitmapDrawer.GetBitmap(bitmapChannel);
+            var writeableBitmap = bitmapDrawer.GetBitmap(bitmapChannel, new GraphicsGetter());
 
             return writeableBitmap;
         }

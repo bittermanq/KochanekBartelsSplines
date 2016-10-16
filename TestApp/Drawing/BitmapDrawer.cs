@@ -16,13 +16,13 @@ namespace KochanekBartelsSplines.TestApp.Drawing
     {
         private readonly Pen _passivePointPen = new Pen(Brushes.Blue);
         private readonly Pen _activePointPen = new Pen(Brushes.Orange);
-        private readonly Pen _activeLinePen = new Pen(Brushes.Green);
+        private readonly Pen _activeLinePen = new Pen(Brushes.LimeGreen);
 
         private const int PassivePointRadius = 2;
         private const int ActivePointRadius = 5;
 
 
-        public WriteableBitmap GetBitmap(BitmapChannel bitmapChannel)
+        public WriteableBitmap GetBitmap(BitmapChannel bitmapChannel, GraphicsGetter graphicsGetter)
         {
             const int dpi = 96;
 
@@ -34,7 +34,7 @@ namespace KochanekBartelsSplines.TestApp.Drawing
                                     writeableBitmap.BackBufferStride, PixelFormat.Format32bppPArgb,
                                     writeableBitmap.BackBuffer);
 
-            using (var graphics = Graphics.FromImage(bitmap))
+            using (var graphics = graphicsGetter.FromImage(bitmap))
             {
                 graphics.Clear(System.Drawing.Color.White);
 
@@ -78,7 +78,7 @@ namespace KochanekBartelsSplines.TestApp.Drawing
                 var firstPoint = line.Points.First();
 
                 var pen = GetPen(firstPoint, line);
-                
+
                 graphics.DrawRectangle(pen, firstPoint.Position.X - radius, firstPoint.Position.Y - radius, 2* radius, 2* radius);
 
                 for (var j = 1; j < line.Points.Count - 1; j++)

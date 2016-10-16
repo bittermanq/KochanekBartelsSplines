@@ -160,8 +160,11 @@ namespace KochanekBartelsSplines.TestApp.Helpers
 
         public void MoveActivePoint(Point point)
         {
-            ActivePoint.Position = point;
-            UpdateBitmapChannel();
+            if (ActivePoint != null)
+            {
+                ActivePoint.Position = point;
+                UpdateBitmapChannel();
+            }
         }
 
         public void SetLineClosed(Point point)

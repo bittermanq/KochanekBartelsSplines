@@ -88,6 +88,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Drawing\GraphicsGetter.cs" />
     <Compile Include="Models\ColorContainer.cs" />
     <Compile Include="Wpf\Converters\BoolToColorConverter.cs" />
     <Compile Include="Drawing\BitmapDrawer.cs" />

@@ -9,10 +9,6 @@ namespace KochanekBartelsSplines.TestApp.ViewModels
 {
     public class MainWindowViewModel : PropertyChangedImplementation, IMainWindowViewModel, ISplinesControllerVMContainer
     {
-        private readonly IFileProvider _fileProvider;
-        
-        private string _fileName;
-        
         public ISplinesControllerViewModel SplinesControllerViewModel { get; set; }
 
         public RelayCommand OpenFileCommand { get; private set; }
@@ -20,10 +16,8 @@ namespace KochanekBartelsSplines.TestApp.ViewModels
         public RelayCommand SaveNewFileCommand { get; private set; }
         
         
-        public MainWindowViewModel(IFileProvider fileProvider, ISplinesControllerViewModel splinesControllerViewModel)
+        public MainWindowViewModel(ISplinesControllerViewModel splinesControllerViewModel)
         {
-            _fileProvider = fileProvider;
-
             SplinesControllerViewModel = splinesControllerViewModel;
             
             CreateCommands();
@@ -35,39 +29,20 @@ namespace KochanekBartelsSplines.TestApp.ViewModels
             OpenFileCommand = new RelayCommand(OpenFile);
             SaveFileCommand = new RelayCommand(SaveFile);
             SaveNewFileCommand = new RelayCommand(SaveNewFile);
-        }   
+        }
 
-        
+
         private void SaveNewFile()
         {
-            var fileName = ShowSaveFileDialog();
-            if (fileName != null) _fileName = fileName;
-            else return;
-
-            SavePointsToFile();
+            
         }
 
         private void SaveFile()
         {
-            if (String.IsNullOrEmpty(_fileName))
-            {
-                SaveNewFile();
-                return;
-            }
-
-            SavePointsToFile();
-            
         }
 
         private void OpenFile()
         {
-            var fileName = ShowOpenFileDialog();
-
-            if (fileName != null)
-            {
-                _fileName = fileName;
-                ReadPointsFromFile();
-            }
         }
 
         private string ShowSaveFileDialog()

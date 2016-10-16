@@ -1,13 +1,10 @@
-using System;
 using KochanekBartelsSplines.TestApp.Helpers.Interfaces;
+using KochanekBartelsSplines.TestApp.Models;
 
 namespace KochanekBartelsSplines.TestApp.Helpers
 {
-    public class SplineSettingsController : ISplineSettingsController
+    public class SplineSettingsController : DrawableBase, ISplineSettingsController
     {
-        private Action RedrawCallback { get; }
-
-
         private double _tension;
         public double Tension
         {
@@ -15,7 +12,7 @@ namespace KochanekBartelsSplines.TestApp.Helpers
             set
             {
                 _tension = value;
-                RedrawCallback();
+                Redraw();
             }
         }
 
@@ -26,7 +23,7 @@ namespace KochanekBartelsSplines.TestApp.Helpers
             set
             {
                 _continuity = value;
-                RedrawCallback();
+                Redraw();
             }
         }
 
@@ -37,7 +34,7 @@ namespace KochanekBartelsSplines.TestApp.Helpers
             set
             {
                 _bias = value;
-                RedrawCallback();
+                Redraw();
             }
         }
 
@@ -48,12 +45,12 @@ namespace KochanekBartelsSplines.TestApp.Helpers
             set
             {
                 _segments = value;
-                RedrawCallback();
+                Redraw();
             }
         }
 
 
-        public SplineSettingsController(Action redrawCallback)
+        public SplineSettingsController(RedrawCallback redrawCallback)
         {
             RedrawCallback = redrawCallback;
         }

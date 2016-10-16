@@ -94,6 +94,8 @@
     <Compile Include="Helpers\Interfaces\ISplineSettingsContainer.cs" />
     <Compile Include="Models\AnchorLine.cs" />
     <Compile Include="Models\AnchorPoint.cs" />
+    <Compile Include="Models\DrawableBase.cs" />
+    <Compile Include="Models\RedrawCallback.cs" />
     <Compile Include="Wpf\PropertyChangedImplementation.cs" />
     <Compile Include="Converters\UserControlToMousePositionConverter.cs" />
     <Compile Include="Models\BitmapChannel.cs" />

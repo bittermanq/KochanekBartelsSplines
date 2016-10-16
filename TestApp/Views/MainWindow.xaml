@@ -24,6 +24,16 @@
             <Setter Property="Background" Value="Transparent"/>
         </Style>
         
+        <Style x:Key="ControlLabelStyle" TargetType="Label" >
+            <Setter Property="Margin" Value="0,0,0,1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="ControlStyle" TargetType="Control" >
+            <Setter Property="Height" Value="23"/>
+            <Setter Property="Margin" Value="0,0,0,1"/>
+        </Style>
+        
         <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
         
     </Window.Resources>
@@ -48,14 +58,15 @@
             <Border Name="SettingsPanel" 
                     Style="{StaticResource ToolPanelStyle}">
 
-                <Grid Margin="5">
+                <Grid Margin="5" DataContext="{Binding Path=SplinesControllerViewModel}">
                     
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="24"/>
-                        <RowDefinition Height="24"/>
-                        <RowDefinition Height="24"/>
-                        <RowDefinition Height="24"/>
-                        <RowDefinition Height="30"/>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
                     
                     <Grid.ColumnDefinitions>
@@ -63,18 +74,19 @@
                         <ColumnDefinition Width="70"/>
                     </Grid.ColumnDefinitions>
 
-                    <Label Content="Tension" HorizontalContentAlignment="Center" Margin="0,-2,0,0" Grid.Column="0" Grid.Row="0"/>
-                    <Label Content="Continuity" HorizontalContentAlignment="Center" Margin="0,-2,0,0" Grid.Column="0" Grid.Row="1"/>
-                    <Label Content="Bias" HorizontalContentAlignment="Center" Margin="0,-2,0,0" Grid.Column="0" Grid.Row="2"/>
+                    <Label Content="Position" Grid.Row="0" Style="{StaticResource ControlLabelStyle}"/>
+                    <Label Content="Tension" Grid.Row="1" Style="{StaticResource ControlLabelStyle}"/>
+                    <Label Content="Continuity" Grid.Row="2" Style="{StaticResource ControlLabelStyle}"/>
+                    <Label Content="Bias" Grid.Row="3" Style="{StaticResource ControlLabelStyle}"/>
+                    <Label Content="Segments" Grid.Row="4" Style="{StaticResource ControlLabelStyle}"/>
 
-                    <Label Content="Segments" HorizontalContentAlignment="Center" Margin="0,-2,0,0" Grid.Column="0" Grid.Row="3"/>
-
-                    <xctk:DoubleUpDown Value="{Binding Path=SplinesControllerViewModel.SplinesController.ActivePoint.Tension}" Increment=".01" FormatString="F2" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch"/>
-                    <xctk:DoubleUpDown Value="{Binding Path=SplinesControllerViewModel.SplinesController.ActivePoint.Continuity}" Increment=".01" FormatString="F2" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch"/>
-                    <xctk:DoubleUpDown Value="{Binding Path=SplinesControllerViewModel.SplinesController.ActivePoint.Bias}" Increment=".01" FormatString="F2" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch"/>
-                    <xctk:DoubleUpDown Value="{Binding Path=SplinesControllerViewModel.SplinesController.SplineSettingsController.Segments}" Increment="1" Minimum="1" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch"/>
-
-                    <Button Content="Reset" Command="{Binding Path=SplinesControllerViewModel.ResetCommand}" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Width="100" Height="24" Style="{StaticResource ButtonStyle}"/>
+                    <TextBox Text="{Binding Path=SplinesController.ActivePoint.Position}"  Grid.Column="1" Grid.Row="0" Style="{StaticResource ControlStyle}"/>
+                    <xctk:DoubleUpDown Value="{Binding Path=SplinesController.ActivePoint.Tension}" Increment=".1" FormatString="F2" Grid.Column="1" Grid.Row="1" Style="{StaticResource ControlStyle}"/>
+                    <xctk:DoubleUpDown Value="{Binding Path=SplinesController.ActivePoint.Continuity}" Increment=".1" FormatString="F2" Grid.Column="1" Grid.Row="2" Style="{StaticResource ControlStyle}"/>
+                    <xctk:DoubleUpDown Value="{Binding Path=SplinesController.ActivePoint.Bias}" Increment=".1" FormatString="F2" Grid.Column="1" Grid.Row="3" Style="{StaticResource ControlStyle}"/>
+                    <xctk:DoubleUpDown Value="{Binding Path=SplinesController.SplineSettingsController.Segments}" Increment="1" Minimum="1" Grid.Column="1" Grid.Row="4" Style="{StaticResource ControlStyle}"/>
+                    
+                    <Button Content="Reset" Command="{Binding Path=ResetCommand}" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Width="100" Height="24" Style="{StaticResource ButtonStyle}"/>
 
                 </Grid>
 

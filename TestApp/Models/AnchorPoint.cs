@@ -1,14 +1,21 @@
-using System;
 using System.Drawing;
 
 namespace KochanekBartelsSplines.TestApp.Models
 {
-    public class AnchorPoint
+    public class AnchorPoint: DrawableBase
     {
-        private readonly Action _redrawCallback;
-        
-        public Point Position { get; set; }
         public bool IsActive { get; set; }
+
+        private Point _position;
+        public Point Position
+        {
+            get { return _position; }
+            set
+            {
+                _position = value;
+                Redraw();
+            }
+        }
 
         private double _tension;
         public double Tension
@@ -17,10 +24,10 @@ namespace KochanekBartelsSplines.TestApp.Models
             set
             {
                 _tension = value;
-                _redrawCallback();
+                Redraw();
             }
         }
-        
+
         private double _continuity;
         public double Continuity
         {
@@ -28,7 +35,7 @@ namespace KochanekBartelsSplines.TestApp.Models
             set
             {
                 _continuity = value;
-                _redrawCallback();
+                Redraw();
             }
         }
         
@@ -39,13 +46,14 @@ namespace KochanekBartelsSplines.TestApp.Models
             set
             {
                 _bias = value;
-                _redrawCallback();
+                Redraw();
             }
         }
 
-        public AnchorPoint(Point position, bool isActive, Action redrawCallback)
+
+        public AnchorPoint(Point position, bool isActive, RedrawCallback redrawCallback)
         {
-            _redrawCallback = redrawCallback;
+            RedrawCallback = redrawCallback;
 
             Position = position;
             IsActive = isActive;

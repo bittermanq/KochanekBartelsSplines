@@ -22,7 +22,7 @@ namespace KochanekBartelsSplines.TestApp.Helpers
 
             foreach (var anchorLine in anchorLines)
             {
-                var curve = new Curve { Id = anchorLine.Id, IsActive = anchorLine.IsActive };
+                var curve = new Curve(anchorLine.ColorContainer) { Id = anchorLine.Id, IsActive = anchorLine.IsActive };
 
                 if (anchorLine.Points.Count >= 3) 
                 {   

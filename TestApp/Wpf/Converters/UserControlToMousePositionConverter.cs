@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace KochanekBartelsSplines.TestApp.Converters
+namespace KochanekBartelsSplines.TestApp.Wpf.Converters
 {
     public class UserControlToMousePositionConverter:IValueConverter
     {

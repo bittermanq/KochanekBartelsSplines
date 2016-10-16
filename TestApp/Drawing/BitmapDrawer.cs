@@ -14,6 +14,14 @@ namespace KochanekBartelsSplines.TestApp.Drawing
 {
     internal class BitmapDrawer : IBitmapDrawer
     {
+        private readonly Pen _passivePointPen = new Pen(Brushes.Blue);
+        private readonly Pen _activePointPen = new Pen(Brushes.Orange);
+        private readonly Pen _activeLinePen = new Pen(Brushes.Green);
+
+        private const int PassivePointRadius = 2;
+        private const int ActivePointRadius = 5;
+
+
         public WriteableBitmap GetBitmap(BitmapChannel bitmapChannel)
         {
             const int dpi = 96;
@@ -31,7 +39,6 @@ namespace KochanekBartelsSplines.TestApp.Drawing
                 graphics.Clear(System.Drawing.Color.White);
 
                 DrawCurves(bitmapChannel.Curves, graphics);
-
                 DrawPoints(bitmapChannel.AnchorLines, graphics);
             }
 
@@ -43,16 +50,14 @@ namespace KochanekBartelsSplines.TestApp.Drawing
         }
 
 
-        private static void DrawCurves(IEnumerable<Curve> curves, Graphics graphics)
+        private void DrawCurves(IEnumerable<Curve> curves, Graphics graphics)
         {
-            var passivePen = new Pen(Brushes.Black);
-            var activePen = new Pen(Brushes.Red);
-
             foreach (var curve in curves)
             {
-                if (curve.Points.Count < 3) continue;
+                if (curve.Points.Count < 3)
+                    continue;
 
-                var pen = curve.IsActive ? activePen : passivePen;
+                var pen = curve.IsActive ? _activeLinePen : new Pen(curve.Color);
 
                 for (var i = 0; i < curve.Points.Count - 1; i++)
                 {
@@ -63,37 +68,42 @@ namespace KochanekBartelsSplines.TestApp.Drawing
 
         private void DrawPoints(IEnumerable<AnchorLine> anchorLines, Graphics graphics)
         {
-            const int radius = 5;
-
-            var passivePen = new Pen(Brushes.Blue);
-            var activePen = new Pen(Brushes.Orange);
-
             foreach (var line in anchorLines)
             {
-                if (!line.Points.Any()) continue;
-                
+                if (!line.Points.Any())
+                    continue;
+
+                var radius = line.IsActive ? ActivePointRadius : PassivePointRadius;
+
                 var firstPoint = line.Points.First();
 
-                var pen = firstPoint.IsActive ? activePen : passivePen;
-
-                graphics.DrawRectangle(pen, firstPoint.Position.X - radius, firstPoint.Position.Y - radius, 2*radius, 2*radius);
+                var pen = GetPen(firstPoint, line);
+                
+                graphics.DrawRectangle(pen, firstPoint.Position.X - radius, firstPoint.Position.Y - radius, 2* radius, 2* radius);
 
                 for (var j = 1; j < line.Points.Count - 1; j++)
                 {
                     var point = line.Points[j];
 
-                    pen = point.IsActive ? activePen : passivePen;
+                    pen = GetPen(point, line);
 
-                    graphics.DrawEllipse(pen, point.Position.X - radius, point.Position.Y - radius, 2*radius, 2*radius);
+                    graphics.DrawEllipse(pen, point.Position.X - radius, point.Position.Y - radius, 2* radius, 2* radius);
                 }
 
                 var lastPoint = line.Points.Last();
 
-                pen = lastPoint.IsActive ? activePen : passivePen;
+                pen = GetPen(lastPoint, line);
 
                 graphics.DrawLine(pen, lastPoint.Position.X - radius, lastPoint.Position.Y - radius, lastPoint.Position.X + radius, lastPoint.Position.Y + radius);
                 graphics.DrawLine(pen, lastPoint.Position.X + radius, lastPoint.Position.Y - radius, lastPoint.Position.X - radius, lastPoint.Position.Y + radius);
             }
+        }
+
+        private Pen GetPen(AnchorPoint point, AnchorLine line)
+        {
+            return line.IsActive 
+                ? (point.IsActive ? _activePointPen : _passivePointPen)
+                : new Pen(line.Color);
         }
     }
 }

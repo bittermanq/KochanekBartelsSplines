@@ -88,16 +88,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converters\BoolToColorConverter.cs" />
+    <Compile Include="Models\ColorContainer.cs" />
+    <Compile Include="Wpf\Converters\BoolToColorConverter.cs" />
     <Compile Include="Drawing\BitmapDrawer.cs" />
     <Compile Include="Drawing\Interfaces\IBitmapDrawer.cs" />
     <Compile Include="Helpers\Interfaces\ISplineSettingsContainer.cs" />
+    <Compile Include="Wpf\Converters\MediaColorToDrawingColorConverter.cs" />
     <Compile Include="Models\AnchorLine.cs" />
     <Compile Include="Models\AnchorPoint.cs" />
     <Compile Include="Models\DrawableBase.cs" />
     <Compile Include="Models\RedrawCallback.cs" />
     <Compile Include="Wpf\PropertyChangedImplementation.cs" />
-    <Compile Include="Converters\UserControlToMousePositionConverter.cs" />
+    <Compile Include="Wpf\Converters\UserControlToMousePositionConverter.cs" />
     <Compile Include="Models\BitmapChannel.cs" />
     <Compile Include="Helpers\Interfaces\ILineInterpolator.cs" />
     <Compile Include="Models\Curve.cs" />
@@ -129,7 +131,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Converters\BitmapChannelToBitmapConverter.cs" />
+    <Compile Include="Wpf\Converters\BitmapChannelToBitmapConverter.cs" />
     <Compile Include="Helpers\SplineControllerFactory.cs" />
     <Compile Include="Helpers\SelectedAnchorPointGetter.cs" />
     <Compile Include="Helpers\SplinesController.cs" />

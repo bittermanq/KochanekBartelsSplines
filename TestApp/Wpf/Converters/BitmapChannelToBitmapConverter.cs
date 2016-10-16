@@ -4,7 +4,7 @@ using System.Windows.Data;
 using KochanekBartelsSplines.TestApp.Drawing.Interfaces;
 using KochanekBartelsSplines.TestApp.Models;
 
-namespace KochanekBartelsSplines.TestApp.Converters
+namespace KochanekBartelsSplines.TestApp.Wpf.Converters
 {
     public class BitmapChannelToBitmapConverter:IValueConverter
     {

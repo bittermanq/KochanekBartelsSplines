@@ -202,7 +202,7 @@ namespace KochanekBartelsSplines.TestApp.Helpers
 
         private AnchorLine GetNewAnchorLine()
         {
-            var anchorLine = new AnchorLine { Id = _lastLineId };
+            var anchorLine = new AnchorLine(new ColorContainer(Color.Black, UpdateBitmapChannel)) { Id = _lastLineId };
             _lastLineId++;
             return anchorLine;
         }

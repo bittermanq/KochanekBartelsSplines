@@ -3,9 +3,10 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        xmlns:converters="clr-namespace:KochanekBartelsSplines.TestApp.Converters"
         xmlns:views="clr-namespace:KochanekBartelsSplines.TestApp.Views"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:testApp="clr-namespace:KochanekBartelsSplines.TestApp"
+        xmlns:converters="clr-namespace:KochanekBartelsSplines.TestApp.Wpf.Converters"
         Height="650" Width="1030"
         ResizeMode="CanMinimize"
         x:ClassModifier="internal">
@@ -35,7 +36,8 @@
         </Style>
         
         <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
-        
+        <converters:MediaColorToDrawingColorConverter x:Key="MediaColorToDrawingColorConverter" />
+
     </Window.Resources>
 
     <!--KeyDown should be catched on the window layer-->
@@ -119,13 +121,14 @@
                             
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    
-                                    <Button Content="{Binding Path=Name}" 
-                                            Command="{Binding Path=DataContext.SplinesControllerViewModel.SelectCurveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+
+                                    <Button Command="{Binding Path=DataContext.SplinesControllerViewModel.SelectCurveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                                             CommandParameter="{Binding Path=Id}"
                                             Background="{Binding Path=IsActive, Converter={StaticResource BoolToColorConverter}}"
                                             Height="30" 
-                                            HorizontalAlignment="Stretch" />
+                                            HorizontalAlignment="Stretch" >
+                                        <xctk:ColorPicker SelectedColor="{Binding Color, Converter={StaticResource MediaColorToDrawingColorConverter}}" Width="30" ShowDropDownButton="False" HorizontalAlignment="Left" />
+                                    </Button>
                                     
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

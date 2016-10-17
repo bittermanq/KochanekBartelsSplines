@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KochanekBartelsSplines", "KochanekBartelsSplines\KochanekBartelsSplines.csproj", "{337721C8-A673-4835-B2F7-575C04D327EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp.Tests", "TestApp.Tests\TestApp.Tests.csproj", "{67B463EB-2CF1-4FAC-92AE-D8BDA1233204}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,14 @@ Global
 		{337721C8-A673-4835-B2F7-575C04D327EF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{337721C8-A673-4835-B2F7-575C04D327EF}.Release|x86.ActiveCfg = Release|Any CPU
 		{337721C8-A673-4835-B2F7-575C04D327EF}.Release|x86.Build.0 = Release|Any CPU
+		{67B463EB-2CF1-4FAC-92AE-D8BDA1233204}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67B463EB-2CF1-4FAC-92AE-D8BDA1233204}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67B463EB-2CF1-4FAC-92AE-D8BDA1233204}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{67B463EB-2CF1-4FAC-92AE-D8BDA1233204}.Debug|x86.Build.0 = Debug|Any CPU
+		{67B463EB-2CF1-4FAC-92AE-D8BDA1233204}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67B463EB-2CF1-4FAC-92AE-D8BDA1233204}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67B463EB-2CF1-4FAC-92AE-D8BDA1233204}.Release|x86.ActiveCfg = Release|Any CPU
+		{67B463EB-2CF1-4FAC-92AE-D8BDA1233204}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

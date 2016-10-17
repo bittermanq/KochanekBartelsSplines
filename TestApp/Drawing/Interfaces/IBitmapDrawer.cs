@@ -1,10 +1,10 @@
 using System.Windows.Media.Imaging;
-using KochanekBartelsSplines.TestApp.Models;
+using KochanekBartelsSplines.TestApp.Models.Interfaces;
 
 namespace KochanekBartelsSplines.TestApp.Drawing.Interfaces
 {
     internal interface IBitmapDrawer
     {
-        WriteableBitmap GetBitmap(BitmapChannel bitmapChannel, GraphicsGetter graphicsGetter);
+        WriteableBitmap GetBitmap(IBitmapChannel bitmapChannel, IGraphicsGetter graphicsGetter);
     }
 }

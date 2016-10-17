@@ -18,7 +18,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -89,7 +89,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Drawing\GraphicsGetter.cs" />
+    <Compile Include="Drawing\Interfaces\IGraphicsGetter.cs" />
     <Compile Include="Models\ColorContainer.cs" />
+    <Compile Include="Models\Interfaces\IBitmapChannel.cs" />
     <Compile Include="Wpf\Converters\BoolToColorConverter.cs" />
     <Compile Include="Drawing\BitmapDrawer.cs" />
     <Compile Include="Drawing\Interfaces\IBitmapDrawer.cs" />

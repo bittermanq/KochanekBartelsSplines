@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using KochanekBartelsSplines.TestApp.Helpers.Interfaces;
 using KochanekBartelsSplines.TestApp.Models;
+using KochanekBartelsSplines.TestApp.Models.Interfaces;
 using KochanekBartelsSplines.TestApp.ViewModels.Interfaces;
 using KochanekBartelsSplines.TestApp.Wpf;
 
@@ -43,7 +44,7 @@ namespace KochanekBartelsSplines.TestApp.Helpers
 
         public ISplineSettingsController SplineSettingsController { get; set; }
 
-        public BitmapChannel BitmapChannel { get; set; }
+        public IBitmapChannel BitmapChannel { get; set; }
         
 
         public SplinesController(ISelectedAnchorPointGetter selectedAnchorPointGetter, 

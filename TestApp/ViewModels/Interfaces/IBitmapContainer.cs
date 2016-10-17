@@ -1,9 +1,9 @@
-using KochanekBartelsSplines.TestApp.Models;
+using KochanekBartelsSplines.TestApp.Models.Interfaces;
 
 namespace KochanekBartelsSplines.TestApp.ViewModels.Interfaces
 {
     public interface IBitmapContainer
     {
-        BitmapChannel BitmapChannel { get; set; }
+        IBitmapChannel BitmapChannel { get; set; }
     }
 }

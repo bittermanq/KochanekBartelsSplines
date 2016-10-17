@@ -6,6 +6,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using KochanekBartelsSplines.TestApp.Drawing.Interfaces;
 using KochanekBartelsSplines.TestApp.Models;
+using KochanekBartelsSplines.TestApp.Models.Interfaces;
 using Brushes = System.Drawing.Brushes;
 using Pen = System.Drawing.Pen;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
@@ -22,7 +23,7 @@ namespace KochanekBartelsSplines.TestApp.Drawing
         private const int ActivePointRadius = 5;
 
 
-        public WriteableBitmap GetBitmap(BitmapChannel bitmapChannel, GraphicsGetter graphicsGetter)
+        public WriteableBitmap GetBitmap(IBitmapChannel bitmapChannel, IGraphicsGetter graphicsGetter)
         {
             const int dpi = 96;
 

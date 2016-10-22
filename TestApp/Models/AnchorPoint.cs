@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 
 namespace KochanekBartelsSplines.TestApp.Models
@@ -51,7 +52,7 @@ namespace KochanekBartelsSplines.TestApp.Models
         }
 
 
-        public AnchorPoint(Point position, bool isActive, RedrawCallback redrawCallback)
+        public AnchorPoint(Point position, bool isActive, Action redrawCallback)
         {
             RedrawCallback = redrawCallback;
 

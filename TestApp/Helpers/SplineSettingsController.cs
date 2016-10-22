@@ -1,3 +1,4 @@
+using System;
 using KochanekBartelsSplines.TestApp.Helpers.Interfaces;
 using KochanekBartelsSplines.TestApp.Models;
 
@@ -50,7 +51,7 @@ namespace KochanekBartelsSplines.TestApp.Helpers
         }
 
 
-        public SplineSettingsController(RedrawCallback redrawCallback)
+        public SplineSettingsController(Action redrawCallback)
         {
             RedrawCallback = redrawCallback;
         }

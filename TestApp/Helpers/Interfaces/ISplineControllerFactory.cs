@@ -1,9 +1,9 @@
-using KochanekBartelsSplines.TestApp.Models;
+using System;
 
 namespace KochanekBartelsSplines.TestApp.Helpers.Interfaces
 {
     public interface ISplineControllerFactory
     {
-        ISplineSettingsController Get(RedrawCallback redrawCallback);
+        ISplineSettingsController Get(Action redrawCallback);
     }
 }

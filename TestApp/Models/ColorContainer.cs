@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace KochanekBartelsSplines.TestApp.Models
 {
@@ -16,7 +17,7 @@ namespace KochanekBartelsSplines.TestApp.Models
         }
 
 
-        public ColorContainer(Color color, RedrawCallback redrawCallback)
+        public ColorContainer(Color color, Action redrawCallback)
         {
             _color = color;
             RedrawCallback = redrawCallback;
